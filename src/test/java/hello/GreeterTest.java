@@ -1,15 +1,14 @@
 package hello;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GreeterTest {
     private final Greeter greeter = new Greeter();
 
     @Test
     public void greeterSaysHello() {
-        assertThat(greeter.sayHello(), containsString("Hello"));
+        assertEquals(greeter.sayHello(), "Hello world!");
     }
 }
