@@ -1,4 +1,4 @@
-package at.aau.recipeorganizer;
+package at.aau.recipeorganizer.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
