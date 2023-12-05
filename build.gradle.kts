@@ -22,11 +22,11 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.1"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.0")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.2.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.0")
 }
 
 tasks.withType<Test> {
