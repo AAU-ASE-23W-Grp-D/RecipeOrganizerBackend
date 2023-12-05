@@ -21,15 +21,18 @@ dependencies {
     val springVersion = "3.2.0"
     val junitVersion = "5.10.1"
 
-    implementation("joda-time:joda-time:2.12.5")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
+
+    implementation("com.h2database:h2:2.2.224")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
 
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 }
 
 tasks.withType<Test> {

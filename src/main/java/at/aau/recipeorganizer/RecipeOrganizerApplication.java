@@ -1,46 +1,27 @@
 package at.aau.recipeorganizer;
 
+import at.aau.recipeorganizer.data.Recipe;
+import at.aau.recipeorganizer.repository.RecipeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 public class RecipeOrganizerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RecipeOrganizerApplication.class, args);
+        SpringApplication.run(RecipeOrganizerApplication.class);
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "PUT")
-                        .maxAge(3600);
-            }
-        };
-    }
-
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+    CommandLineRunner initDatabase(RecipeRepository repository) {
         return args -> {
-
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
+            // TODO remove this
+            // these are just some default values
+            repository.save(new Recipe("name1", "desc1"));
+            repository.save(new Recipe("name2", "desc2"));
+            repository.save(new Recipe("name3", "desc3"));
         };
     }
+
 }
