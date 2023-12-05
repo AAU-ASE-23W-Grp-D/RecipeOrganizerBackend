@@ -18,13 +18,16 @@ repositories {
 }
 
 dependencies {
-    implementation("joda-time:joda-time:2.12.5")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.0")
-    implementation("org.springframework.boot:spring-boot-starter-web:3.2.0")
+    val springVersion = "3.2.0"
+    val junitVersion = "5.10.1"
 
-    testImplementation(platform("org.junit:junit-bom:5.10.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.0")
+    implementation("joda-time:joda-time:2.12.5")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
+
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 }
