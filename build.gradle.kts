@@ -20,12 +20,18 @@ repositories {
 dependencies {
     val springVersion = "3.2.0"
     val junitVersion = "5.10.1"
+    val jjwtVersion = "0.12.3"
 
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springVersion")
 
-    implementation("com.h2database:h2:2.2.224")
+    runtimeOnly("com.h2database:h2:2.2.224")
+
+    implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
 

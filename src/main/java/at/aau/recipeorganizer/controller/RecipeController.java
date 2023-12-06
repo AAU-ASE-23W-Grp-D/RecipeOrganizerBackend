@@ -1,11 +1,12 @@
 package at.aau.recipeorganizer.controller;
 
 import at.aau.recipeorganizer.data.Recipe;
+import at.aau.recipeorganizer.data.User;
 import at.aau.recipeorganizer.service.RecipeService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/recipes")
 public class RecipeController {
     private final RecipeService service;
+
 
     public RecipeController(RecipeService service) {
         this.service = service;
@@ -24,17 +26,13 @@ public class RecipeController {
     }
 
     @PostMapping
-    public Recipe save(@RequestBody Recipe recipe) {
-        return service.save(recipe);
+    public ResponseEntity<Recipe> save(@RequestBody Recipe recipe) {
+        return ResponseEntity.ok(service.save(recipe));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Recipe> findById(@PathVariable long id) {
-        var recipe = service.findById(id);
-        if (recipe.isPresent()) return ResponseEntity.ok(recipe.get());
-
-
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "recipe not found");
+        return ResponseEntity.of(service.findById(id));
     }
 
     @DeleteMapping("{id}")
@@ -44,9 +42,6 @@ public class RecipeController {
 
     @PutMapping("{id}")
     public ResponseEntity<Recipe> update(@PathVariable long id, @RequestBody Recipe recipe) {
-        var updatedRecipe = service.update(recipe, id);
-        if (updatedRecipe.isPresent()) return ResponseEntity.ok(updatedRecipe.get());
-
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "recipe not found");
+        return ResponseEntity.of(service.update(recipe, id));
     }
 }

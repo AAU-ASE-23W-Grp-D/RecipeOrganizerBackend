@@ -15,7 +15,6 @@ public class RecipeService {
 
     public RecipeService(CrudRepository<Recipe, Long> repository) {
         this.repository = repository;
-
     }
 
     public Optional<Recipe> findById(Long id) {
@@ -24,7 +23,8 @@ public class RecipeService {
 
     public List<Recipe> findAll() {
         var allRecipes = new ArrayList<Recipe>();
-        for (var recipe : repository.findAll()) allRecipes.add(recipe);
+        for (var recipe : repository.findAll())
+            allRecipes.add(recipe);
         return allRecipes;
     }
 
@@ -37,6 +37,7 @@ public class RecipeService {
     }
 
     public Optional<Recipe> update(Recipe recipe, long id) {
-        return repository.findById(id).map(r -> r.update(recipe));
+        return repository.findById(id)
+                .map(r -> repository.save(r.update(recipe)));
     }
 }
