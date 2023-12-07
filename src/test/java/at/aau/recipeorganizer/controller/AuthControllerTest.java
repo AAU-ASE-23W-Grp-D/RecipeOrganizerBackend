@@ -22,7 +22,7 @@ public class AuthControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void testLoginSuccess() throws Exception {
+    void testLoginSuccess() throws Exception {
         AuthController.LoginRequest loginRequest = new AuthController.LoginRequest();
         loginRequest.setUsername("admin");
         loginRequest.setPassword("12345678");
@@ -35,9 +35,22 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void testLoginFailure() throws Exception {
+    void testLoginFailureWrongUsername() throws Exception {
         AuthController.LoginRequest loginRequest = new AuthController.LoginRequest();
         loginRequest.setUsername("invalidUsername");
+        loginRequest.setPassword("12345678");
+        MvcResult result = mvc.perform(post("/api/login")
+                        .content(objectMapper.writeValueAsString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        assertEquals("failure", result.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testLoginFailureWrongPassword() throws Exception {
+        AuthController.LoginRequest loginRequest = new AuthController.LoginRequest();
+        loginRequest.setUsername("admin");
         loginRequest.setPassword("invalidPassword");
         MvcResult result = mvc.perform(post("/api/login")
                         .content(objectMapper.writeValueAsString(loginRequest))
