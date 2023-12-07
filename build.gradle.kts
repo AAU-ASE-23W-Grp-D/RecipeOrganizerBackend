@@ -20,6 +20,7 @@ repositories {
 dependencies {
     val springVersion = "3.2.0"
     val junitVersion = "5.10.1"
+    val junitPlatformVersion = "1.10.1"
 
     implementation("joda-time:joda-time:2.12.5")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springVersion")
@@ -29,7 +30,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
 }
 
 tasks.withType<Test> {
