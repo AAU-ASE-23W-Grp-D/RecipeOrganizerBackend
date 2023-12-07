@@ -51,6 +51,11 @@ tasks.jacocoTestReport {
     }
 }
 
+tasks.sonar {
+    // Jacoco is required to run before generating the report
+    dependsOn(tasks.jacocoTestReport)
+}
+
 jacoco {
     toolVersion = "0.8.9"
     reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
