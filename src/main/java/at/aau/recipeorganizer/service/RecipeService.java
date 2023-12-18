@@ -1,7 +1,7 @@
 package at.aau.recipeorganizer.service;
 
 import at.aau.recipeorganizer.data.Recipe;
-import at.aau.recipeorganizer.service.RecipeService;
+import at.aau.recipeorganizer.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class RecipeService {
 
-    private final RecipeService repository;
+    private final RecipeRepository repository;
 
-    public RecipeService(RecipeService repository) {
+    public RecipeService(RecipeRepository repository) {
         this.repository = repository;
     }
 
