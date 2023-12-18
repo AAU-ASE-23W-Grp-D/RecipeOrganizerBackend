@@ -16,9 +16,6 @@ public record SignupRequest(
         @Email
         String email,
 
-
-        //Set<String> roles,
-
         @NotBlank
         @Size(min = 6, max = 40)
         String password
