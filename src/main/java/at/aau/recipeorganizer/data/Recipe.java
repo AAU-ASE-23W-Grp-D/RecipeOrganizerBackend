@@ -8,16 +8,16 @@ import java.util.Objects;
 @Entity
 @Table(name = "recipes")
 public class Recipe {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    public long id;
+
     @Column(name = "name")
     public String name;
 
     @Column(name = "description")
     public String description;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
-    public long id;
 
     public Recipe(String name, String description) {
         this.name = name;
