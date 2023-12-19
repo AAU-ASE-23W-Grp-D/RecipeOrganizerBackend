@@ -11,18 +11,20 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.Optional;
 
-// TODO move all of the finals into the properties file
 @Component
 public class JwtUtils {
 
-    private static final String jwtSecret = "VERYSECRETVALUEVERYSECRETVALUEVERYSECRETVALUEVERYSECRETVALUEVERYSECRETVALUEVERYSECRETVALUEVERYSECRETVALUEVERYSECRETVALUE";
+	@Value("${jwt.secret}")
+    private String jwtSecret;
 
-    private static final int jwtExpirationMs = 100000000;
+	@Value("${jwt.expirationMs}")
+    private int jwtExpirationMs;
 
     public static final String JWT_COOKIE = "JWT_TOKEN";
 
