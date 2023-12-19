@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     val springVersion = "3.2.0"
+    val springSecurityVersion = "6.2.0"
     val junitVersion = "5.10.1"
     val jjwtVersion = "0.12.3"
     val junitPlatformVersion = "1.10.1"
@@ -29,10 +30,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springVersion")
-
-    runtimeOnly("com.h2database:h2:2.2.224")
+    implementation("org.springframework.security:spring-security-test:$springSecurityVersion")
 
     implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+
+    runtimeOnly("com.h2database:h2:2.2.224")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
@@ -41,7 +43,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
-
 }
 
 tasks.withType<Test> {
