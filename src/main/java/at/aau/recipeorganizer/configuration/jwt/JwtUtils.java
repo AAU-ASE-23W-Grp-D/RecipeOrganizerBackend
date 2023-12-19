@@ -24,15 +24,15 @@ public class JwtUtils {
 
     private static final int jwtExpirationMs = 100000000;
 
-    private static final String jwtCookie = "JWT_TOKEN";
+    public static final String JWT_COOKIE = "JWT_TOKEN";
 
     public Optional<String> getJwtFromCookies(HttpServletRequest request) {
-        return Optional.ofNullable(WebUtils.getCookie(request, jwtCookie)).map(Cookie::getValue);
+        return Optional.ofNullable(WebUtils.getCookie(request, JWT_COOKIE)).map(Cookie::getValue);
     }
 
     public ResponseCookie generateJwtCookie(UserDetails userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-        return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
+        return ResponseCookie.from(JWT_COOKIE, jwt).path("/api").maxAge((long)24 * 60 * 60).httpOnly(true).build();
     }
 
     public String getUserNameFromJwtToken(String token) {
