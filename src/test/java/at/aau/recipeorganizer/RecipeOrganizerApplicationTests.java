@@ -3,6 +3,7 @@ package at.aau.recipeorganizer;
 import at.aau.recipeorganizer.data.Recipe;
 import at.aau.recipeorganizer.repository.RecipeRepository;
 import at.aau.recipeorganizer.repository.RoleRepository;
+import at.aau.recipeorganizer.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.CommandLineRunner;
@@ -14,10 +15,13 @@ import java.util.Arrays;
 @SpringBootTest
 class RecipeOrganizerApplicationTests {
     @MockBean
-    private RecipeRepository recipeRepository;
+    private UserRepository userRepository;
 
     @MockBean
     private RoleRepository roleRepository;
+
+    @MockBean
+    private RecipeRepository recipeRepository;
 
     @Test
     public void contextLoads() {
@@ -32,7 +36,7 @@ class RecipeOrganizerApplicationTests {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(Arrays.asList(recipe1, recipe2, recipe3));
 
-        CommandLineRunner initDatabase = new RecipeOrganizerApplication().initDatabase(recipeRepository, roleRepository);
+        CommandLineRunner initDatabase = new RecipeOrganizerApplication().initDatabase(userRepository, roleRepository, recipeRepository);
         initDatabase.run();
 
         Mockito.verify(recipeRepository, Mockito.times(3)).save(Mockito.any(Recipe.class));

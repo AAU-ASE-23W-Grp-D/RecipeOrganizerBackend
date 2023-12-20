@@ -21,7 +21,7 @@ class UserTest {
 
     @Test
     void testUser_GetEmail() {
-        assertEquals("test@email.com", user.email);
+        assertEquals("test@email.com", user.getEmail());
     }
 
     @Test

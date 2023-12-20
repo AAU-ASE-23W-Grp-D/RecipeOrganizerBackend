@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
                 @UniqueConstraint(columnNames = "email")
         })
 public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @NotBlank
     @Size(max = 20)
     public String username;
@@ -33,16 +38,11 @@ public class User implements UserDetails {
     @Size(max = 120)
     public String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> roles = new HashSet<>();
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
     public User() {
     }
@@ -66,6 +66,10 @@ public class User implements UserDetails {
         return roles.stream()
                 .map(r -> new SimpleGrantedAuthority(r.name.name()))
                 .collect(Collectors.toList());
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

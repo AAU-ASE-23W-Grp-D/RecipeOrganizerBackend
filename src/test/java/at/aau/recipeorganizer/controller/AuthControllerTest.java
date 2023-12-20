@@ -4,6 +4,7 @@ import at.aau.recipeorganizer.configuration.jwt.JwtUtils;
 import at.aau.recipeorganizer.data.SignupRequest;
 import at.aau.recipeorganizer.repository.RecipeRepository;
 import at.aau.recipeorganizer.repository.RoleRepository;
+import at.aau.recipeorganizer.repository.UserRepository;
 import at.aau.recipeorganizer.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +36,13 @@ public class AuthControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private RecipeRepository recipeRepository;
+    private UserRepository userRepository;
 
     @MockBean
     private RoleRepository roleRepository;
+
+    @MockBean
+    private RecipeRepository recipeRepository;
 
     @MockBean
     private UserService userService;
