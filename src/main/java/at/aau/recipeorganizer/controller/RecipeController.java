@@ -1,11 +1,8 @@
 package at.aau.recipeorganizer.controller;
 
 import at.aau.recipeorganizer.data.Recipe;
-import at.aau.recipeorganizer.data.User;
 import at.aau.recipeorganizer.service.RecipeService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

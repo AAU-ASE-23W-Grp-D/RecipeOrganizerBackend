@@ -22,10 +22,7 @@ public class RecipeService {
     }
 
     public List<Recipe> findAll() {
-        var allRecipes = new ArrayList<Recipe>();
-        for (var recipe : repository.findAll())
-            allRecipes.add(recipe);
-        return allRecipes;
+        return new ArrayList<>(repository.findAll());
     }
 
     public Recipe save(Recipe recipe) {
