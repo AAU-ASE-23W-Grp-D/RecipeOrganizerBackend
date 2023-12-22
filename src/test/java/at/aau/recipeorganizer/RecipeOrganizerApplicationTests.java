@@ -24,12 +24,12 @@ class RecipeOrganizerApplicationTests {
     private RecipeRepository recipeRepository;
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         // Ensure that the application context loads successfully
     }
 
     @Test
-    public void testDefaultRecipesAreLoaded() throws Exception {
+    void testDefaultRecipesAreLoaded() throws Exception {
         Recipe recipe1 = new Recipe("name1", "desc1");
         Recipe recipe2 = new Recipe("name2", "desc2");
         Recipe recipe3 = new Recipe("name3", "desc3");

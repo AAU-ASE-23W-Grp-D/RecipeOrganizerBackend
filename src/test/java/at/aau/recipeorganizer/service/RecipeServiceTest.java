@@ -24,7 +24,7 @@ class RecipeServiceTest {
     private RecipeService recipeService;
 
     @Test
-    public void testUpdateRecipe() {
+    void testUpdateRecipe() {
         Recipe existingRecipe = new Recipe("Existing Test Recipe", "Existing Test Description");
         Recipe updatedRecipe = new Recipe("Updated Test Recipe", "Updated Test Description");
         long recipeId = existingRecipe.id;
@@ -70,7 +70,7 @@ class RecipeServiceTest {
     }
 
     @Test
-    public void testFindByIdRecipe() {
+    void testFindByIdRecipe() {
         Recipe recipe = new Recipe("Test Recipe", "Test Description");
         long recipeId = recipe.id;
 
@@ -85,7 +85,7 @@ class RecipeServiceTest {
     }
 
     @Test
-    public void deleteByIdRecipe() {
+    void deleteByIdRecipe() {
         long recipeId = 1L;
 
         recipeService.deleteById(recipeId);
