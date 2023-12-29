@@ -5,12 +5,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
@@ -28,8 +26,8 @@ public class JwtUtils {
 
     public static final String JWT_COOKIE = "JWT_TOKEN";
 
-    public Optional<String> getJwtFromCookies(HttpServletRequest request) {
-        return Optional.ofNullable(WebUtils.getCookie(request, JWT_COOKIE)).map(Cookie::getValue);
+    public Optional<String> getJwtFromHeader(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader(JWT_COOKIE));
     }
 
     public ResponseCookie generateJwtCookie(UserDetails userPrincipal) {

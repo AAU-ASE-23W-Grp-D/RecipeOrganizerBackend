@@ -52,14 +52,14 @@ class JwtUtilsTest {
     }
 
     @Test
-    void testGetJwtFromCookies() {
+    void testGetJwtFromHeader() {
         User user = new User("testUser", "test@email.com", "testPassword");
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
+        String jwt = jwtUtils.generateTokenFromUsername(user.getUsername());
 
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setCookies(new Cookie(jwtCookie.getName(), jwtCookie.getValue()));
-        Optional<String> jwt = jwtUtils.getJwtFromCookies(request);
+        request.addHeader("JWT_TOKEN", jwt);
+        Optional<String> jwtFromHeader = jwtUtils.getJwtFromHeader(request);
 
-        assertTrue(jwt.isPresent());
+        assertTrue(jwtFromHeader.isPresent());
     }
 }

@@ -7,8 +7,6 @@ import at.aau.recipeorganizer.data.User;
 import at.aau.recipeorganizer.data.UserInfoResponse;
 import at.aau.recipeorganizer.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,15 +38,14 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User userDetails = (User) authentication.getPrincipal();
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+        String jwt = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
 
         var roles = new ArrayList<String>();
         for (var authority : userDetails.getAuthorities())
             roles.add(authority.getAuthority());
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), roles));
+                .body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), roles, jwt));
     }
 
     @PostMapping("/signup")
