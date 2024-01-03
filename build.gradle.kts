@@ -19,17 +19,30 @@ repositories {
 
 dependencies {
     val springVersion = "3.2.0"
+    val springSecurityVersion = "6.2.0"
     val junitVersion = "5.10.1"
+    val jjwtVersion = "0.12.3"
+    val junitPlatformVersion = "1.10.1"
+    val h2databaseVersion = "2.2.224"
 
-    implementation("joda-time:joda-time:2.12.5")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springVersion")
+    implementation("org.springframework.security:spring-security-test:$springSecurityVersion")
+
+    implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+
+    runtimeOnly("com.h2database:h2:$h2databaseVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
 
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
+    
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
 }
 
 tasks.withType<Test> {
@@ -48,6 +61,11 @@ tasks.jacocoTestReport {
         html.required = true
         xml.required = true
     }
+}
+
+tasks.sonar {
+    // Jacoco is required to run before generating the report
+    dependsOn(tasks.jacocoTestReport)
 }
 
 jacoco {

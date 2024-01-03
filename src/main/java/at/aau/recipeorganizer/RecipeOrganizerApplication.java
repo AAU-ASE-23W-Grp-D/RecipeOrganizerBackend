@@ -1,19 +1,22 @@
 package at.aau.recipeorganizer;
 
+import at.aau.recipeorganizer.data.Recipe;
+import at.aau.recipeorganizer.data.Role;
+import at.aau.recipeorganizer.data.User;
+import at.aau.recipeorganizer.repository.RecipeRepository;
+import at.aau.recipeorganizer.repository.RoleRepository;
+import at.aau.recipeorganizer.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
-
 @SpringBootApplication
 public class RecipeOrganizerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RecipeOrganizerApplication.class, args);
+        SpringApplication.run(RecipeOrganizerApplication.class);
     }
 
     @Bean
@@ -23,24 +26,30 @@ public class RecipeOrganizerApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                         .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "PUT")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .maxAge(3600);
             }
         };
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+    CommandLineRunner initDatabase(UserRepository users, RoleRepository roles, RecipeRepository recipes) {
         return args -> {
+            // TODO remove this
+            // these are just some default values
+            roles.save(new Role(Role.ERole.ROLE_ADMIN));
+            roles.save(new Role(Role.ERole.ROLE_USER));
 
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
+            User admin = new User("admin", "admin@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
+            admin.roles.add(new Role(Role.ERole.ROLE_ADMIN));
+            User testUser = new User("testUser", "test@email.com", "$2a$12$v9ykV0/PH0EOAC12pfqWlu4YzsykY8u0TLcd1hnex0I0oGES.htoO");
+            testUser.roles.add(new Role(Role.ERole.ROLE_USER));
+            users.save(admin);
+            users.save(testUser);
 
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
+            recipes.save(new Recipe("name1", "desc1"));
+            recipes.save(new Recipe("name2", "desc2"));
+            recipes.save(new Recipe("name3", "desc3"));
         };
     }
 }
