@@ -22,10 +22,10 @@ public class UserService {
 
     public UserSignUpResult registerUser(SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.username())) return UserSignUpResult.USERNAME_TAKEN;
-        if (userRepository.existsByEmail(signUpRequest.email())) return UserSignUpResult.EMAIL_TAKEN;
+        else if (userRepository.existsByEmail(signUpRequest.email())) return UserSignUpResult.EMAIL_TAKEN;
 
         var user = new User(signUpRequest.username(), signUpRequest.email(), passwordEncoder.encode(signUpRequest.password()));
-        user.roles.add(roleRepository.findByName(Role.ERole.ROLE_USER).orElseThrow());
+        // add the role?
         userRepository.save(user);
 
         return UserSignUpResult.SUCCESS;
