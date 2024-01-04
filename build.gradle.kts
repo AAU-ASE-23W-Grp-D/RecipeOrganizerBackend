@@ -23,7 +23,6 @@ dependencies {
     val junitVersion = "5.10.1"
     val jjwtVersion = "0.12.3"
     val junitPlatformVersion = "1.10.1"
-    val h2databaseVersion = "2.2.224"
 
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -34,7 +33,6 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
-    runtimeOnly("com.h2database:h2:$h2databaseVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
