@@ -30,6 +30,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
+          POSTGRES_HOST: localhost
           POSTGRES_DB: recipeorganizer
           POSTGRES_PASSWORD: postgres
           POSTGRES_PORT: 5432
