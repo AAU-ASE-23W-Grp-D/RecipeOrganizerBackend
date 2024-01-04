@@ -17,23 +17,42 @@ on:
       - main
       - develop
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    container: node:latest
+    
     services:
       postgres:
         image: postgres:latest
         env:
           POSTGRES_DB: recipeorganizer
-          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
+    - name: Install PostgreSQL client
+      run: |
+        apt-get update
+        apt-get install --yes postgresql-client
+
+    - name: Query database
+      run: psql -h postgres -d recipeorganizer -U postgres -c 'SELECT 1;'
+      env:
+        PGPASSWORD: postgres
+    
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
