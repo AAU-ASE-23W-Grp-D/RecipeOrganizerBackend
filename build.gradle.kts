@@ -38,6 +38,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation("org.postgresql:postgresql")
     
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
 }
