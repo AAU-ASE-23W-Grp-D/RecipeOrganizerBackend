@@ -16,11 +16,15 @@ public class Recipe {
     @Column(name = "name")
     public String name;
 
+    @Column(name = "ingredients")
+    public String ingredients;
+
     @Column(name = "description")
     public String description;
 
-    public Recipe(String name, String description) {
+    public Recipe(String name, String ingredients, String description) {
         this.name = name;
+        this.ingredients = ingredients;
         this.description = description;
     }
 
@@ -29,6 +33,7 @@ public class Recipe {
 
     public Recipe update(Recipe recipe) {
         if (recipe.name != null) this.name = recipe.name;
+        if (recipe.ingredients != null) this.ingredients = recipe.ingredients;
         if (recipe.description != null) this.description = recipe.description;
 
         return this;
@@ -43,6 +48,7 @@ public class Recipe {
 
         if (id != recipe.id) return false;
         if (!Objects.equals(name, recipe.name)) return false;
+        // also for ingredients
         return Objects.equals(description, recipe.description);
     }
 
@@ -50,12 +56,13 @@ public class Recipe {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (ingredients != null ? ingredients.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + '}';
+        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + '}';
     }
 }

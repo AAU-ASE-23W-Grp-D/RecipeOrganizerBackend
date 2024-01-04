@@ -6,17 +6,16 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "roles")
 public class Role {
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    public ERole name;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private Integer id;
 
-    public Role() {
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", length = 20)
+    public ERole name;
+
+    public Role() { }
 
     public Role(ERole name) {
         this.name = name;
@@ -34,5 +33,5 @@ public class Role {
         ROLE_USER,
         ROLE_ADMIN
     }
-
 }
+
