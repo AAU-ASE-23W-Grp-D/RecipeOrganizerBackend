@@ -57,7 +57,7 @@ class RecipeControllerTest {
     public void init() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper();
-        recipe = new Recipe("Test Recipe", "Test Description");
+        recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description");
     }
 
     @Test
