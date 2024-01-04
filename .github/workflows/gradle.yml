@@ -17,9 +17,6 @@ on:
       - main
       - develop
 
-permissions:
-  contents: read
-
 jobs:
   build:
 
