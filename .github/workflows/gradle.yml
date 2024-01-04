@@ -62,6 +62,15 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+      env:
+        DATABASE_URL: jdbc:postgresql://localhost:5432/recipeorganizer
+        DATABASE_USER: postgres
+        DATABASE_PASSWORD: postgres
+
+    - name: Debug Information
+      run: |
+        echo "PostgreSQL Host: ${{ job.services.postgres.host }}"
+        echo "PostgreSQL Port: ${{ job.services.postgres.ports[5432] }}"
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
