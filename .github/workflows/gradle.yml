@@ -30,9 +30,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: postgres_db
-          POSTGRES_USER: postgres_user
-          POSTGRES_PORT: postgres
+          POSTGRES_DB: recipeorganizer
+          POSTGRES_USER: postgres
+          POSTGRES_PORT: 5432
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
@@ -59,12 +59,12 @@ jobs:
           apt-get install --yes postgresql-client
           
     - name: Query database
-      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+      run: psql -h postgres -d recipeorganizer -U postgres -c 'SELECT 1;'
       env:
         PGPASSWORD: postgres
 
     - name: Create tables in PostgreSQL database
-      run: psql -h postgres -d postgres_db -U postgres_user -f RecipeOrganizerBackend/.github/workflows/database.sql
+      run: psql -h postgres -d recipeorganizer -U postgres -f database.sql
       env:
         PGPASSWORD: postgres
 
