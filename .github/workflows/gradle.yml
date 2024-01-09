@@ -55,7 +55,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
       env:
-        DATABASE_URL: jdbc:postgresql://localhost:5432/recipeorganizer
+        DATABASE_URL: jdbc:postgresql://127.0.0.1:5432/recipeorganizer
         DATABASE_USER: postgres
         DATABASE_PASSWORD: postgres
 
@@ -67,7 +67,7 @@ jobs:
     - name: Test Database Connection
       run: |
         echo "Testing database connection..."
-        result=$(psql -h localhost -d recipeorganizer -U postgres -c 'SELECT 1;' -q -t)
+        result=$(psql -h 127.0.0.1 -d recipeorganizer -U postgres -c 'SELECT 1;' -q -t)
         if [ "$result" = "1" ]; then
           echo "Database connection test passed!"
         else
@@ -87,7 +87,7 @@ jobs:
       with:
         arguments: build
       env:
-        DATABASE_URL: jdbc:postgresql://localhost:5432/recipeorganizer
+        DATABASE_URL: jdbc:postgresql://127.0.0.1:5432/recipeorganizer
         DATABASE_USER: postgres
         DATABASE_PASSWORD: postgres
 
