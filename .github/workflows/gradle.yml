@@ -55,7 +55,7 @@ jobs:
     - name: Install sudo package
       run: |
         apt update
-        apt install sudo#
+        apt install sudo
         apt install -y systemctl
         apt-get install -y postgresql postgresql-contrib
 
