@@ -28,11 +28,9 @@ jobs:
     
     services:
       postgres:
-        image: postgres:latest
+        image: postgres
         env:
-          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -72,6 +70,9 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
+      env:
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
 
     - name: Analyze with SonarCloud
       env:
