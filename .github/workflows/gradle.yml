@@ -53,7 +53,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Install sudo package
-      run: apt update && apt install sudo && apt install systemctl
+      run: apt update && apt install sudo && apt install systemctl && apt-get install postgresql postgresql-contrib
 
     - name: Start PostgreSQL on Ubuntu
       run: |
