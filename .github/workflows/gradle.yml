@@ -64,7 +64,7 @@ jobs:
         PGPASSWORD: postgres
 
     - name: Create tables in PostgreSQL database
-      run: psql -h postgres -d postgres_db -U postgres_user -f database.sql
+      run: psql -h postgres -d postgres_db -U postgres_user -f RecipeOrganizerBackend/.github/workflows/database.sql
       env:
         PGPASSWORD: postgres
 
