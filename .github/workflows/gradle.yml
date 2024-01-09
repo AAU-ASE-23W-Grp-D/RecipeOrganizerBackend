@@ -30,6 +30,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
+          POSTGRES_HOST: postgres
           POSTGRES_DB: recipeorganizer
           POSTGRES_USER: postgres
           POSTGRES_PORT: 5432
@@ -67,11 +68,16 @@ jobs:
       run: psql -h postgres -d recipeorganizer -U postgres -f database.sql
       env:
         PGPASSWORD: postgres
+   
+    - name: Run Gradle tests
+      run: ./gradlew test
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
+      env:
+        PGPASSWORD: postgres
 
     - name: Analyze with SonarCloud
       env:
