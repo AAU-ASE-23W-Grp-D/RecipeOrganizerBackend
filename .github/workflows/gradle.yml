@@ -51,23 +51,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
-    - name: Install PostgreSQL client
-      run: |
-        apt-get update
-        apt-get install -y postgresql-client
 
-    - name: Wait for PostgreSQL to be ready
+    - name: Start PostgreSQL on Ubuntu
       run: |
+        sudo systemctl start postgresql.service
         sleep 10s
-
-    - name: Check PostgreSQL status
-      run: |
-        pg_isready -h localhost -p 5432
-
-    - name: Create Database and Populate with Data
-      run: |
-        psql -U postgres -d postgres -a -f database.sql
+        pg_isready
 
     - name: Build with Gradle
       env:
