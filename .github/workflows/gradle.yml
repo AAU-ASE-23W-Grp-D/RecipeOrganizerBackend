@@ -27,7 +27,7 @@ jobs:
     container: node:latest
     
     services:
-      postgresql:
+      postgres:
         image: postgres:latest
         env:
           POSTGRES_DB: postgres_db
