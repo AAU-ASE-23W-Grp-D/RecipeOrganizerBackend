@@ -53,7 +53,9 @@ jobs:
         distribution: 'temurin'
         
     - name: Install PostgreSQL client
-      run: apt-get install -y postgresql-client
+      run: |
+        apt-get update
+        apt-get install -y postgresql-client
 
     - name: Wait for PostgreSQL to be ready
       run: |
