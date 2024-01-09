@@ -30,7 +30,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: recipeorganizer
         ports:
           - 5432:5432
         options: >-
@@ -50,20 +52,23 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Wait for PostgreSQL to be ready
-      run: |
-        sleep 10s
-
     - name: Install package
       run: npm install
 
     - name: Install dependencies
       run: npm ci
 
+    - name: Create PostgreSQL database and tables
+      run: |
+        psql -h localhost -U postgres -c 'CREATE DATABASE recipeorganizer;'
+
     - name: Wait for PostgreSQL to be ready
       run: |
         sleep 10s
 
+    - name: Check if PostgreSQL database is created
+      run: psql -h localhost -U postgres -l
+        
     - name: Connect to PostgreSQL
       run: node database.js
       env:
