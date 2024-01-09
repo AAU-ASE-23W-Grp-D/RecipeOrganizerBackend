@@ -1,13 +1,13 @@
 -- script to add all tables and relations to the database recipeorganizer
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(120) NOT NULL
 );
 
 CREATE TABLE roles (
-    role_id SERIAL PRIMARY KEY,
+    role_id BIGSERIAL PRIMARY KEY,
     name VARCHAR(20) NOT NULL
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE user_roles (
 );
 
 CREATE TABLE recipes (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     ingredients TEXT,
     description TEXT

@@ -86,7 +86,7 @@ class RecipeServiceTest {
 
     @Test
     void deleteByIdRecipe() {
-        long recipeId = 1;
+        long recipeId = 1L;
 
         recipeService.deleteById(recipeId);
 
