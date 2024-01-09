@@ -44,15 +44,6 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Install PostgreSQL client
-      run: |
-        apt-get update
-        apt-get install --yes postgresql-client
-
-    - name: Query database
-      run: psql -h postgres -d recipeorganizer -U postgres -c 'SELECT 1;'
-      env:
-        PGPASSWORD: postgres
     
     - uses: actions/checkout@v4
       with:
@@ -67,6 +58,24 @@ jobs:
         DATABASE_URL: jdbc:postgresql://localhost:5432/recipeorganizer
         DATABASE_USER: postgres
         DATABASE_PASSWORD: postgres
+
+    - name: Install PostgreSQL client
+      run: |
+        apt-get update
+        apt-get install --yes postgresql-client
+
+    - name: Test Database Connection
+      run: |
+        echo "Testing database connection..."
+        result=$(psql -h localhost -d recipeorganizer -U postgres -c 'SELECT 1;' -q -t)
+        if [ "$result" = "1" ]; then
+          echo "Database connection test passed!"
+        else
+          echo "Database connection test failed!"
+          exit 1
+        fi
+      env:
+        PGPASSWORD: postgres
 
     - name: Debug Information
       run: |
