@@ -52,6 +52,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Install sudo package
+      run: apt update && apt install sudo
+
     - name: Start PostgreSQL on Ubuntu
       run: |
         sudo systemctl start postgresql.service
