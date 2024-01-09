@@ -56,12 +56,14 @@ jobs:
       run: |
         apt-get update
         apt-get install -y postgresql-client
-        systemctl start postgresql
-        systemctl status postgresql
 
     - name: Wait for PostgreSQL to be ready
       run: |
         sleep 10s
+
+    - name: Check PostgreSQL status
+      run: |
+        pg_isready -h localhost -p 5432
 
     - name: Create Database and Populate with Data
       run: |
