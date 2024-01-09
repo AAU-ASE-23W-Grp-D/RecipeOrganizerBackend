@@ -65,6 +65,7 @@ jobs:
     - name: Create PostgreSQL database and tables
       run: |
         apt-get update
+        apt-get install postgresql
         apt-get install -y postgresql-client
         service postgresql status
         psql -h localhost -U postgres -c 'CREATE DATABASE recipeorganizer;'
