@@ -24,7 +24,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    container: node:latest
+    container: node:10.18-jessie
     
     services:
       postgres:
@@ -32,7 +32,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: recipeorganizer
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -61,17 +61,6 @@ jobs:
     - name: Wait for PostgreSQL to be ready
       run: |
         sleep 10s
-
-    - name: Create PostgreSQL database and tables
-      run: |
-        apt-get update
-        apt-get install postgresql
-        apt-get install -y postgresql-client
-        service postgresql status
-        psql -h localhost -U postgres -c 'CREATE DATABASE recipeorganizer;'
-
-    - name: Check if PostgreSQL database is created
-      run: psql -h localhost -U postgres -l
 
     - name: Connect to PostgreSQL
       run: node database.js
