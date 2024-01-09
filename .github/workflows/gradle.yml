@@ -50,6 +50,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        sleep 10s
+
     - name: Install package
       run: npm install
 
