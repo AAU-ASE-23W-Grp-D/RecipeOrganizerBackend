@@ -57,7 +57,7 @@ class UserServiceTest {
 
     @Test
     void testRegisterUser_EmailTaken() {
-        SignupRequest signupRequest = new SignupRequest("newTestUser", "testUser@email.com", "testPassword");
+        SignupRequest signupRequest = new SignupRequest("newTestUser", "existing@email.com", "testPassword");
         when(userRepository.existsByUsername(signupRequest.username())).thenReturn(false);
         when(userRepository.existsByEmail(signupRequest.email())).thenReturn(true);
 
