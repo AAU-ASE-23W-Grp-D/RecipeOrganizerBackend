@@ -30,7 +30,9 @@ jobs:
       postgres:
         image: postgres
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -50,23 +52,24 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Install package
-      run: npm install
-
-    - name: Install dependencies
-      run: npm ci
-
     - name: Wait for PostgreSQL to be ready
       run: |
         sleep 10s
 
+    - name: Create Database and Populate with Data
+      run: |
+        psql -U postgres -d postgres -a -f database.sql
+
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
       env:
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      with:
+        arguments: build
 
     - name: Analyze with SonarCloud
       env:
