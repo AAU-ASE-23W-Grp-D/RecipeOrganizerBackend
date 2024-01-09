@@ -64,11 +64,14 @@ jobs:
 
     - name: Create PostgreSQL database and tables
       run: |
+        apt-get update
+        apt-get install -y postgresql-client
+
         psql -h localhost -U postgres -c 'CREATE DATABASE recipeorganizer;'
 
     - name: Check if PostgreSQL database is created
       run: psql -h localhost -U postgres -l
-        
+
     - name: Connect to PostgreSQL
       run: node database.js
       env:
