@@ -61,7 +61,7 @@ jobs:
 
     - name: Start PostgreSQL on Ubuntu
       run: |
-        sudo systemctl start -y postgresql.service
+        sudo systemctl start postgresql.service
         sleep 10s
         pg_isready
 
