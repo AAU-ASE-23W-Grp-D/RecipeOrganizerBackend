@@ -28,11 +28,12 @@ jobs:
     
     services:
       postgres:
-        image: postgres
+        image: postgres:latest
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres_db
+          POSTGRES_USER: postgres_user
+          POSTGRES_PORT: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -51,22 +52,17 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
-    - name: Wait for PostgreSQL to be ready
+    
+    - name: Install PostgreSQL client
       run: |
-        sleep 10s
-
-    - name: Create Database and Populate with Data
-      run: |
-        psql -U postgres -d postgres -a -f database.sql
+          apt-get update
+          apt-get install --yes postgresql-client
+    - name: Query database
+      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+      env:
+        PGPASSWORD: postgres
 
     - name: Build with Gradle
-      env:
-        POSTGRES_HOST: localhost
-        POSTGRES_PORT: 5432
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: postgres
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
