@@ -33,7 +33,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-test:$springSecurityVersion")
     implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
-    runtimeOnly("org.postgresql:postgresql\"")
+    runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.h2database:h2:$h2databaseVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
 
