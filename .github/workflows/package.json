@@ -1,0 +1,12 @@
+{
+  "name": "insert",
+  "description": "RecipeOrganizer",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Stefan",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.11.3",
+    "pg-format": "^1.0.4"
+  }
+}
