@@ -30,6 +30,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
+          POSTGRES_HOST: postgres
           POSTGRES_DB: recipeorganizer
           POSTGRES_USER: postgres
           POSTGRES_PORT: 5432
