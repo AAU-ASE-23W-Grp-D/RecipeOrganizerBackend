@@ -27,8 +27,8 @@ jobs:
     container: node:latest
     
     services:
-      postgres:
-        image: postgres
+      postgresql:
+        image: postgres:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
