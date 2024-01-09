@@ -39,6 +39,3 @@ VALUES ('1', (SELECT role_id FROM roles WHERE name = 'ROLE_ADMIN'));
 
 INSERT INTO user_roles (user_id, role_id)
 VALUES ('2', (SELECT role_id FROM roles WHERE name = 'ROLE_USER'));
-
-\connect postgresql://postgres:postgres@postgres:5432/recipeorganizer
-\connect postgres://postgres:postgres@postgres:5432/recipeorganizer
