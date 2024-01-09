@@ -1,4 +1,4 @@
-
+-- script to add all tables and relations to the database recipeorganizer
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE roles (
     role_id SERIAL PRIMARY KEY,
     name VARCHAR(20) NOT NULL
-);v
+);
 
 CREATE TABLE user_roles (
     user_id INTEGER REFERENCES users(id),
