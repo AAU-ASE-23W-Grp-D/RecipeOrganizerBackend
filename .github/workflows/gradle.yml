@@ -30,11 +30,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_DB: recipeorganizer
           POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: postgres
         ports:
           - 5432:5432
         options: >-
@@ -44,7 +40,6 @@ jobs:
           --health-retries 5
 
     steps:
-    
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
@@ -54,42 +49,20 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Connect to PostgreSQL
+      run: node database.js
       env:
-        DATABASE_URL: jdbc:postgresql://127.0.0.1:5432/recipeorganizer
-        DATABASE_USER: postgres
-        DATABASE_PASSWORD: postgres
-
-    - name: Install PostgreSQL client
-      run: |
-        apt-get update
-        apt-get install --yes postgresql-client
-
-    - name: Test Database Connection
-      run: |
-        echo "Testing database connection..."
-        result=$(psql -h 127.0.0.1 -d recipeorganizer -U postgres -c 'SELECT 1;' -q -t)
-        if [ "$result" = "1" ]; then
-          echo "Database connection test passed!"
-        else
-          echo "Database connection test failed!"
-          exit 1
-        fi
-      env:
-        PGPASSWORD: postgres
-
-    - name: Debug Information
-      run: |
-        echo "PostgreSQL Host: ${{ job.services.postgres.host }}"
-        echo "PostgreSQL Port: ${{ job.services.postgres.ports[5432] }}"
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
-      env:
-        DATABASE_URL: jdbc:postgresql://127.0.0.1:5432/recipeorganizer
-        DATABASE_USER: postgres
-        DATABASE_PASSWORD: postgres
 
     - name: Analyze with SonarCloud
       env:
