@@ -56,6 +56,10 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        sleep 10s
+
     - name: Connect to PostgreSQL
       run: node database.js
       env:
