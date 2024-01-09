@@ -5,9 +5,9 @@ const pgclient = new Client({
     port: process.env.POSTGRES_PORT,
     user: 'postgres',
     password: 'postgres',
-    database: 'recipeorganizer'
+    database: 'postgres'
 });
-
+console.log('Connecting to PostgreSQL at', process.env.POSTGRES_HOST, 'on port', process.env.POSTGRES_PORT);
 pgclient.connect();
 
 const createTablesQuery = `
