@@ -1,27 +1,27 @@
 
 CREATE TABLE users (
-                       id SERIAL PRIMARY KEY,
-                       username VARCHAR(20) NOT NULL,
-                       email VARCHAR(50) NOT NULL,
-                       password VARCHAR(120) NOT NULL
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(120) NOT NULL
 );
 
 CREATE TABLE roles (
-                       role_id SERIAL PRIMARY KEY,
-                       name VARCHAR(20) NOT NULL
+    role_id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
 );v
 
 CREATE TABLE user_roles (
-                            user_id INTEGER REFERENCES users(id),
-                            role_id INTEGER REFERENCES roles(role_id),
-                            PRIMARY KEY (user_id, role_id)
+    user_id INTEGER REFERENCES users(id),
+    role_id INTEGER REFERENCES roles(role_id),
+    PRIMARY KEY (user_id, role_id)
 );
 
 CREATE TABLE recipes (
-                         id SERIAL PRIMARY KEY,
-                         name VARCHAR(255) NOT NULL,
-                         ingredients TEXT,
-                         description TEXT
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    ingredients TEXT,
+    description TEXT
 );
 
 INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
