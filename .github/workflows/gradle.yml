@@ -58,13 +58,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Create PostgreSQL database and tables
-      run: |
-        psql -h localhost -U postgres -c 'CREATE DATABASE recipeorganizer;'
-
     - name: Wait for PostgreSQL to be ready
       run: |
         sleep 10s
+
+    - name: Create PostgreSQL database and tables
+      run: |
+        psql -h localhost -U postgres -c 'CREATE DATABASE recipeorganizer;'
 
     - name: Check if PostgreSQL database is created
       run: psql -h localhost -U postgres -l
