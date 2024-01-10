@@ -30,13 +30,13 @@ class RecipeOrganizerApplicationTests {
 
     @Test
     void testDefaultRecipesAreLoaded() throws Exception {
-        Recipe recipe1 = new Recipe("name1", "desc1");
-        Recipe recipe2 = new Recipe("name2", "desc2");
-        Recipe recipe3 = new Recipe("name3", "desc3");
+        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
+        Recipe recipe2 = new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+        Recipe recipe3 = new Recipe("Brot", "Teig", "Beschreibung Brot");
 
         Mockito.when(recipeRepository.findAll()).thenReturn(Arrays.asList(recipe1, recipe2, recipe3));
 
-        CommandLineRunner initDatabase = new RecipeOrganizerApplication().initDatabase(userRepository, roleRepository, recipeRepository);
+        CommandLineRunner initDatabase = new RecipeOrganizerApplication().initDatabase(recipeRepository);
         initDatabase.run();
 
         Mockito.verify(recipeRepository, Mockito.times(3)).save(Mockito.any(Recipe.class));

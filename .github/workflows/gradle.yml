@@ -24,6 +24,23 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    container: node:latest
+    
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: recipeorganizer
+          POSTGRES_USER: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
@@ -35,11 +52,35 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    
+    - name: Install PostgreSQL client
+      run: |
+          apt-get update
+          apt-get install --yes postgresql-client
+          
+    - name: Query database
+      run: psql -h postgres -d recipeorganizer -U postgres -c 'SELECT 1;'
+      env:
+        PGPASSWORD: postgres
+
+    - name: Create tables in PostgreSQL database
+      run: psql -h postgres -d recipeorganizer -U postgres -f database.sql
+      env:
+        PGPASSWORD: postgres
+
+    - name: Set Spring profile to "ci"
+      run: echo "SPRING_PROFILES_ACTIVE=ci" >> $GITHUB_ENV
+
+    - name: Clean up Gradle
+      run: ./gradlew clean
+
+    - name: Init Gradle
+      run: ./gradlew init
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
-        arguments: build
+        arguments: build 
 
     - name: Analyze with SonarCloud
       env:
