@@ -68,19 +68,19 @@ jobs:
       env:
         PGPASSWORD: postgres
 
+    - name: Set Spring profile to "ci"
+      run: echo "SPRING_PROFILES_ACTIVE=ci" >> $GITHUB_ENV
+
     - name: Clean up Gradle
       run: ./gradlew clean
 
     - name: Init Gradle
       run: ./gradlew init
 
-    - name: Build with Gradle 1
-      run: ./gradlew build
-
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
-        arguments: build
+        arguments: build 
 
     - name: Analyze with SonarCloud
       env:
