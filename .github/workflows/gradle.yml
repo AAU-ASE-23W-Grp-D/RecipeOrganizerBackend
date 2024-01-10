@@ -30,7 +30,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_HOST: postgres
+          POSTGRES_HOST: localhost
           POSTGRES_DB: recipeorganizer
           POSTGRES_USER: postgres
           POSTGRES_PORT: 5432
@@ -60,24 +60,28 @@ jobs:
           apt-get install --yes postgresql-client
           
     - name: Query database
-      run: psql -h postgres -d recipeorganizer -U postgres -c 'SELECT 1;'
+      run: psql -h localhost -d recipeorganizer -U postgres -c 'SELECT 1;'
       env:
         PGPASSWORD: postgres
 
     - name: Create tables in PostgreSQL database
-      run: psql -h postgres -d recipeorganizer -U postgres -f database.sql
+      run: psql -h localhost -d recipeorganizer -U postgres -f database.sql
       env:
         PGPASSWORD: postgres
 
     - name: Clean up Gradle
       run: ./gradlew clean
 
+    - name: Init Gradle
+      run: ./gradlew init
+
+    - name: Build with Gradle 1
+      run: ./gradlew build
+
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
-      env:
-        PGPASSWORD: postgres
 
     - name: Analyze with SonarCloud
       env:
