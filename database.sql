@@ -18,12 +18,11 @@ CREATE TABLE user_roles (
 );
 
 CREATE TABLE recipes (
-    id BIGSERIAL PRIMARY KEY,
+    recipe_id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     ingredients TEXT,
     description TEXT
 );
-
 
 CREATE TABLE own_recipes (
     user_id INTEGER REFERENCES users(id),
