@@ -24,15 +24,16 @@ CREATE TABLE recipes (
     description TEXT
 );
 
+
 CREATE TABLE own_recipes (
     user_id INTEGER REFERENCES users(id),
-     recipe_id INTEGER REFERENCES recipes(id),
+    recipe_id INTEGER REFERENCES recipes(recipe_id),
     PRIMARY KEY (user_id, recipe_id)
 );
 
 CREATE TABLE liked_recipes (
     user_id INTEGER REFERENCES users(id),
-    recipe_id INTEGER REFERENCES recipes(id),
+    recipe_id INTEGER REFERENCES recipes(recipe_id),
     PRIMARY KEY (user_id, recipe_id)
 );
 

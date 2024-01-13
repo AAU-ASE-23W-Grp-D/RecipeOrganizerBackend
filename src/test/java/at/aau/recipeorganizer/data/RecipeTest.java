@@ -17,8 +17,8 @@ class RecipeTest {
     void testEquals_NotEquals() {
         Recipe recipe1 = new Recipe("Test Recipe", "Test Ingredient", "Test Description");
         Recipe recipe2 = new Recipe("Test Recipe", "Test Ingredient", "Test Description");
-        recipe1.id = 1;
-        recipe2.id = 2;
+        recipe1.recipe_id = 1;
+        recipe2.recipe_id = 2;
 
         assertNotEquals(recipe1, recipe2);
     }
@@ -98,7 +98,7 @@ class RecipeTest {
     @Test
     void testToString() {
         Recipe recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description");
-        String expectedToString = "Recipe{id=" + recipe.id + ", name='" + recipe.name + "', ingredients='" + recipe.ingredients + "', description='" + recipe.description + "'}";
+        String expectedToString = "Recipe{id=" + recipe.recipe_id + ", name='" + recipe.name + "', ingredients='" + recipe.ingredients + "', description='" + recipe.description + "'}";
 
         assertEquals(expectedToString, recipe.toString());
     }

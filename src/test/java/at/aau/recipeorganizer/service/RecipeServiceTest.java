@@ -27,7 +27,7 @@ class RecipeServiceTest {
     void testUpdateRecipe() {
         Recipe existingRecipe = new Recipe("Existing Test Recipe",  "Existing Ingredient", "Existing Test Description");
         Recipe updatedRecipe = new Recipe("Updated Test Recipe", "Updated Ingredient", "Updated Test Description");
-        long recipeId = existingRecipe.id;
+        long recipeId = existingRecipe.recipe_id;
 
         when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(existingRecipe));
         when(recipeRepository.save(any(Recipe.class))).thenReturn(updatedRecipe);
@@ -72,9 +72,9 @@ class RecipeServiceTest {
     @Test
     void testFindByIdRecipe() {
         Recipe recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description");
-        long recipeId = recipe.id;
+        long recipeId = recipe.recipe_id;
 
-        when(recipeRepository.findById(recipe.id)).thenReturn(Optional.of(recipe));
+        when(recipeRepository.findById(recipe.recipe_id)).thenReturn(Optional.of(recipe));
 
         Optional<Recipe> result = recipeService.findById(recipeId);
 

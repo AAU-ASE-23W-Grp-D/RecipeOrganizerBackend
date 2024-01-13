@@ -3,16 +3,15 @@ package at.aau.recipeorganizer.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "recipes")
-public class Recipe implements Serializable {
+public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    public long id;
+    public long recipe_id;
 
     @Column(name = "name")
     public String name;
@@ -47,14 +46,14 @@ public class Recipe implements Serializable {
 
         Recipe recipe = (Recipe) o;
 
-        if (id != recipe.id) return false;
+        if (recipe_id != recipe.recipe_id) return false;
         if (!Objects.equals(name, recipe.name)) return false;
         return Objects.equals(description, recipe.description);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = (int) (recipe_id ^ (recipe_id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (ingredients != null ? ingredients.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -64,6 +63,6 @@ public class Recipe implements Serializable {
     @Override
     public String toString() {
         // add rating
-        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + '}';
+        return "Recipe{" + "id=" + recipe_id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + '}';
     }
 }
