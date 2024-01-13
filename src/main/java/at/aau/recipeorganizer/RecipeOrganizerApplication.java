@@ -41,9 +41,9 @@ public class RecipeOrganizerApplication {
             Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
             Recipe recipe3 = new Recipe("Brot", "Teig", "Beschreibung Brot");
 
-            testUser2.own_recipes.add(recipe1);
-            testUser2.own_recipes.add(recipe2);
-            testUser2.liked_recipes.add(recipe3);
+            testUser2.ownRecipes.add(recipe1);
+            testUser2.ownRecipes.add(recipe2);
+            testUser2.likedRecipes.add(recipe3);
             users.save(testUser2);
 
             recipes.save(recipe1);
