@@ -22,14 +22,10 @@ public class Recipe {
     @Column(name = "description")
     public String description;
 
-//    @Column(name = "rating")
-//    public String rating;
-
     public Recipe(String name, String ingredients, String description) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
-//        this.rating = rating;
     }
 
     public Recipe() {
@@ -39,7 +35,6 @@ public class Recipe {
         if (recipe.name != null) this.name = recipe.name;
         if (recipe.ingredients != null) this.ingredients = recipe.ingredients;
         if (recipe.description != null) this.description = recipe.description;
-//        if (recipe.rating != null) this.rating = recipe.rating;
 
         return this;
     }
@@ -53,7 +48,6 @@ public class Recipe {
 
         if (id != recipe.id) return false;
         if (!Objects.equals(name, recipe.name)) return false;
-        // also for ingredients
         return Objects.equals(description, recipe.description);
     }
 
@@ -63,7 +57,6 @@ public class Recipe {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (ingredients != null ? ingredients.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-//        result = 31 * result + (rating != null ? rating.hashCode() : 0);
         return result;
     }
 

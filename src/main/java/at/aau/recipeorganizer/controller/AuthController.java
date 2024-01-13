@@ -31,7 +31,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-
     @PostMapping("/signin")
     public ResponseEntity<UserInfoResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
@@ -56,6 +55,4 @@ public class AuthController {
             case SUCCESS -> ResponseEntity.ok("User registered successfully!");
         };
     }
-
-
 }

@@ -1,17 +1,13 @@
 package at.aau.recipeorganizer;
 
 import at.aau.recipeorganizer.data.Recipe;
-import at.aau.recipeorganizer.data.Role;
 import at.aau.recipeorganizer.data.User;
 import at.aau.recipeorganizer.repository.RecipeRepository;
 import at.aau.recipeorganizer.repository.UserRepository;
-import at.aau.recipeorganizer.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
