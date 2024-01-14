@@ -129,4 +129,17 @@ class RecipeTest {
 
         assertNotEquals(recipe1.description, recipe2.description);
     }
+
+    @Test
+    void testGetLikedByUser() {
+        User user1 = new User("testUser1", "test1@email.com", "testPassword");
+        User user2 = new User("testUser2", "test2@email.com", "testPassword");
+
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+
+        user1.addLikedRecipe(recipe1);
+        user2.addLikedRecipe(recipe1);
+
+        assertEquals(2, recipe1.getLikedByUser().size());
+    }
 }

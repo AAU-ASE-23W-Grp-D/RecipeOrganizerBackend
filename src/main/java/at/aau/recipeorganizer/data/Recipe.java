@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
@@ -22,6 +24,13 @@ public class Recipe implements Serializable {
 
     @Column(name = "description")
     public String description;
+
+    @ManyToMany(mappedBy = "likedRecipes")
+    private Set<User> likedByUser = new HashSet<>();
+
+    public Set<User> getLikedByUser() {
+        return likedByUser;
+    }
 
     public Recipe(String name, String ingredients, String description) {
         this.name = name;

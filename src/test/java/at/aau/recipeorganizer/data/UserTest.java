@@ -30,53 +30,53 @@ class UserTest {
     }
 
     @Test
-    void testGetOwnRecipes() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+    void testAddOwnRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
-        user.setOwnRecipes(recipe1);
-        user.setOwnRecipes(recipe2);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
 
         assertEquals(2, user.getOwnRecipes().size());
     }
 
     @Test
-    void testGetLikedRecipes() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+    void testAddLikedRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
-        user.setLikedRecipes(recipe1);
-        user.setLikedRecipes(recipe2);
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
 
         assertEquals(2, user.getLikedRecipes().size());
     }
 
     @Test
-    void testRemoveOwnRecipes() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+    void testRemoveOwnRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
-        user.setOwnRecipes(recipe1);
-        user.setOwnRecipes(recipe2);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
 
         assertEquals(2, user.getOwnRecipes().size());
 
-        user.removeOwnRecipes(recipe2);
+        user.removeOwnRecipe(recipe2);
 
         assertEquals(1, user.getOwnRecipes().size());
     }
 
     @Test
-    void testRemoveLikedRecipes() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+    void testRemoveLikedRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
-        user.setLikedRecipes(recipe1);
-        user.setLikedRecipes(recipe2);
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
 
         assertEquals(2, user.getLikedRecipes().size());
 
-        user.removeLikedRecipes(recipe2);
+        user.removeLikedRecipe(recipe2);
 
         assertEquals(1, user.getLikedRecipes().size());
     }
