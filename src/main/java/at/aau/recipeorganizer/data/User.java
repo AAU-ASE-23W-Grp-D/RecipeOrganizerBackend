@@ -48,13 +48,13 @@ public class User implements UserDetails {
     @JoinTable(name = "own_recipes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-    public transient Set<Recipe> ownRecipes = new HashSet<>();
+    public Set<Recipe> ownRecipes = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "liked_recipes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-    public transient Set<Recipe> likedRecipes = new HashSet<>();
+    public Set<Recipe> likedRecipes = new HashSet<>();
 
     public User() {
     }

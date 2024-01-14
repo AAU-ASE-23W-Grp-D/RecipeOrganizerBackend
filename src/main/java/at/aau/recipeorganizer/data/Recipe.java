@@ -10,8 +10,8 @@ import java.util.Objects;
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    public long recipe_id;
+    @Column(name = "id")
+    public long id;
 
     @Column(name = "name")
     public String name;
