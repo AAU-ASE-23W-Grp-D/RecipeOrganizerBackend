@@ -31,8 +31,8 @@ class UserTest {
 
     @Test
     void testAddOwnRecipe() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
@@ -42,8 +42,8 @@ class UserTest {
 
     @Test
     void testAddLikedRecipe() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
@@ -53,8 +53,8 @@ class UserTest {
 
     @Test
     void testRemoveOwnRecipe() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
@@ -68,8 +68,8 @@ class UserTest {
 
     @Test
     void testRemoveLikedRecipe() {
-        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
 
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
