@@ -18,7 +18,7 @@ CREATE TABLE user_roles (
 );
 
 CREATE TABLE recipes (
-    recipe_id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     ingredients TEXT,
     description TEXT
@@ -26,13 +26,13 @@ CREATE TABLE recipes (
 
 CREATE TABLE own_recipes (
     user_id INTEGER REFERENCES users(id),
-    recipe_id INTEGER REFERENCES recipes(recipe_id),
+    recipe_id INTEGER REFERENCES recipes(id),
     PRIMARY KEY (user_id, recipe_id)
 );
 
 CREATE TABLE liked_recipes (
     user_id INTEGER REFERENCES users(id),
-    recipe_id INTEGER REFERENCES recipes(recipe_id),
+    recipe_id INTEGER REFERENCES recipes(id),
     PRIMARY KEY (user_id, recipe_id)
 );
 
