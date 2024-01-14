@@ -30,6 +30,28 @@ class UserTest {
     }
 
     @Test
+    void testGetOwnRecipes() {
+        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
+        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+
+        user.setOwnRecipes(recipe1);
+        user.setOwnRecipes(recipe2);
+
+        assertEquals(2, user.getOwnRecipes().size());
+    }
+
+    @Test
+    void testGetLikedRecipes() {
+        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
+        Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
+
+        user.setLikedRecipes(recipe1);
+        user.setLikedRecipes(recipe2);
+
+        assertEquals(2, user.getLikedRecipes().size());
+    }
+
+    @Test
     void testGetAuthorities() {
         Role roleUser = new Role(Role.ERole.ROLE_USER);
         Role roleAdmin = new Role(Role.ERole.ROLE_ADMIN);
