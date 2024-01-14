@@ -72,6 +72,14 @@ public class User implements UserDetails {
         likedRecipes.add(recipe);
     }
 
+    public void removeOwnRecipes (Recipe recipe) {
+        ownRecipes.remove(recipe);
+    }
+
+    public void removeLikedRecipes (Recipe recipe) {
+        likedRecipes.remove(recipe);
+    }
+
     public User() {
     }
 

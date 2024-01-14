@@ -36,6 +36,7 @@ public class RecipeOrganizerApplication {
             // TODO remove this
             // these are just some default values
             User testUser2 = new User("testUser2", "test2@email.com", "$2a$12$v9ykV0/PH0EOAC12pfqWlu4YzsykY8u0TLcd1hnex0I0oGES.htoO");
+            User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$v9ykV0/PH0EOAC12pfqWlu4YzsykY8u0TLcd1hnex0I0oGES.htoO");
 
             Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
             Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
@@ -44,6 +45,8 @@ public class RecipeOrganizerApplication {
             testUser2.setOwnRecipes(recipe1);
             testUser2.setOwnRecipes(recipe2);
             testUser2.setLikedRecipes(recipe3);
+            testUser3.setOwnRecipes(recipe2);
+            testUser2.removeOwnRecipes(recipe2);
             users.save(testUser2);
 
             recipes.save(recipe1);
