@@ -30,53 +30,53 @@ class UserTest {
     }
 
     @Test
-    void testGetOwnRecipes() {
+    void testAddOwnRecipe() {
         Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
         Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
 
-        user.setOwnRecipes(recipe1);
-        user.setOwnRecipes(recipe2);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
 
         assertEquals(2, user.getOwnRecipes().size());
     }
 
     @Test
-    void testGetLikedRecipes() {
+    void testAddLikedRecipe() {
         Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
         Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
 
-        user.setLikedRecipes(recipe1);
-        user.setLikedRecipes(recipe2);
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
 
         assertEquals(2, user.getLikedRecipes().size());
     }
 
     @Test
-    void testRemoveOwnRecipes() {
+    void testRemoveOwnRecipe() {
         Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
         Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
 
-        user.setOwnRecipes(recipe1);
-        user.setOwnRecipes(recipe2);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
 
         assertEquals(2, user.getOwnRecipes().size());
 
-        user.removeOwnRecipes(recipe2);
+        user.removeOwnRecipe(recipe2);
 
         assertEquals(1, user.getOwnRecipes().size());
     }
 
     @Test
-    void testRemoveLikedRecipes() {
+    void testRemoveLikedRecipe() {
         Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
         Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
 
-        user.setLikedRecipes(recipe1);
-        user.setLikedRecipes(recipe2);
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
 
         assertEquals(2, user.getLikedRecipes().size());
 
-        user.removeLikedRecipes(recipe2);
+        user.removeLikedRecipe(recipe2);
 
         assertEquals(1, user.getLikedRecipes().size());
     }
