@@ -18,8 +18,8 @@ repositories {
 }
 
 dependencies {
-    val springVersion = "3.2.0"
-    val springSecurityVersion = "6.2.0"
+    val springVersion = "3.2.1"
+    val springSecurityVersion = "6.2.1"
     val junitVersion = "5.10.1"
     val jjwtVersion = "0.12.3"
     val junitPlatformVersion = "1.10.1"
