@@ -12,7 +12,6 @@ import java.util.List;
 public class RecipeController {
     private final RecipeService service;
 
-
     public RecipeController(RecipeService service) {
         this.service = service;
     }

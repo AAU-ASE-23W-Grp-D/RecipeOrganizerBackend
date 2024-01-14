@@ -3,14 +3,17 @@ package at.aau.recipeorganizer.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
-public class Recipe {
+public class Recipe implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
+    @Column(name = "id")
     public long id;
 
     @Column(name = "name")
@@ -21,6 +24,13 @@ public class Recipe {
 
     @Column(name = "description")
     public String description;
+
+    @ManyToMany(mappedBy = "likedRecipes")
+    private Set<User> likedByUser = new HashSet<>();
+
+    public Set<User> getLikedByUser() {
+        return likedByUser;
+    }
 
     public Recipe(String name, String ingredients, String description) {
         this.name = name;
@@ -48,7 +58,6 @@ public class Recipe {
 
         if (id != recipe.id) return false;
         if (!Objects.equals(name, recipe.name)) return false;
-        // also for ingredients
         return Objects.equals(description, recipe.description);
     }
 
@@ -63,6 +72,7 @@ public class Recipe {
 
     @Override
     public String toString() {
+        // add rating
         return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + '}';
     }
 }

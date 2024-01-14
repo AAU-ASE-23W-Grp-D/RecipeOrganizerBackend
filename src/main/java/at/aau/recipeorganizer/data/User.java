@@ -44,6 +44,44 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "own_recipes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    private Set<Recipe> ownRecipes = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "liked_recipes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    private Set<Recipe> likedRecipes = new HashSet<>();
+
+    public Set<Recipe> getOwnRecipes() {
+        return ownRecipes;
+    }
+
+    public Set<Recipe> getLikedRecipes() {
+        return likedRecipes;
+    }
+
+    public void addOwnRecipe(Recipe recipe) {
+        ownRecipes.add(recipe);
+    }
+
+    public void addLikedRecipe(Recipe recipe) {
+        likedRecipes.add(recipe);
+        recipe.getLikedByUser().add(this);
+    }
+
+    public void removeOwnRecipe(Recipe recipe) {
+        ownRecipes.remove(recipe);
+    }
+
+    public void removeLikedRecipe(Recipe recipe) {
+        likedRecipes.remove(recipe);
+        recipe.getLikedByUser().remove(this);
+    }
+
     public User() {
     }
 

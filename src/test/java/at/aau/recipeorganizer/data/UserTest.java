@@ -30,6 +30,58 @@ class UserTest {
     }
 
     @Test
+    void testAddOwnRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
+
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        assertEquals(2, user.getOwnRecipes().size());
+    }
+
+    @Test
+    void testAddLikedRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
+
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
+
+        assertEquals(2, user.getLikedRecipes().size());
+    }
+
+    @Test
+    void testRemoveOwnRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
+
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        assertEquals(2, user.getOwnRecipes().size());
+
+        user.removeOwnRecipe(recipe2);
+
+        assertEquals(1, user.getOwnRecipes().size());
+    }
+
+    @Test
+    void testRemoveLikedRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description");
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description");
+
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
+
+        assertEquals(2, user.getLikedRecipes().size());
+
+        user.removeLikedRecipe(recipe2);
+
+        assertEquals(1, user.getLikedRecipes().size());
+    }
+
+    @Test
     void testGetAuthorities() {
         Role roleUser = new Role(Role.ERole.ROLE_USER);
         Role roleAdmin = new Role(Role.ERole.ROLE_ADMIN);
