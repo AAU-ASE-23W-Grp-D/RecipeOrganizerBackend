@@ -59,7 +59,7 @@ public class RecipeOrganizerApplication {
             testUser4.addLikedRecipe(recipe1);
             testUser4.addLikedRecipe(recipe3);
 
-            testUser3.removeLikedRecipe(recipe1);
+            testUser4.removeLikedRecipe(recipe1);
             users.save(testUser3);
             users.save(testUser4);
         };

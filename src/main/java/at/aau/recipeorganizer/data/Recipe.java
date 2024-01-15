@@ -1,6 +1,5 @@
 package at.aau.recipeorganizer.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -25,7 +24,10 @@ public class Recipe implements Serializable {
     @Column(name = "description")
     public String description;
 
-    @ManyToMany(mappedBy = "likedRecipes")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "liked_by_user",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> likedByUser = new HashSet<>();
 
     public Set<User> getLikedByUser() {
