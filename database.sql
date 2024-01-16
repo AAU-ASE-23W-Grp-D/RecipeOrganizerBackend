@@ -21,7 +21,9 @@ CREATE TABLE recipes (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     ingredients TEXT,
-    description TEXT
+    description TEXT,
+    rating INTEGER,
+    image BYTEA
 );
 
 CREATE TABLE own_recipes (
