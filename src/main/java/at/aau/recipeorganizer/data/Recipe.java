@@ -1,8 +1,11 @@
 package at.aau.recipeorganizer.data;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,6 +27,14 @@ public class Recipe implements Serializable {
     @Column(name = "description")
     public String description;
 
+    @Column(name = "rating")
+    @Min(value = 1, message = "Rating should not be less than 1")
+    @Max(value = 5, message = "Rating should not be greater than 5")
+    public int rating;
+
+    @Column(name= "image", columnDefinition="BYTEA")
+    public byte[] image;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "liked_by_user",
             joinColumns = @JoinColumn(name = "recipe_id"),
@@ -34,10 +45,12 @@ public class Recipe implements Serializable {
         return likedByUser;
     }
 
-    public Recipe(String name, String ingredients, String description) {
+    public Recipe(String name, String ingredients, String description, int rating, byte[] image) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
+        this.rating = rating;
+        this.image = image;
     }
 
     public Recipe() {
@@ -47,6 +60,8 @@ public class Recipe implements Serializable {
         if (recipe.name != null) this.name = recipe.name;
         if (recipe.ingredients != null) this.ingredients = recipe.ingredients;
         if (recipe.description != null) this.description = recipe.description;
+        if (recipe.rating != 0) this.rating = recipe.rating;
+        if (recipe.image != null) this.image = recipe.image;
 
         return this;
     }
@@ -60,6 +75,8 @@ public class Recipe implements Serializable {
 
         if (id != recipe.id) return false;
         if (!Objects.equals(name, recipe.name)) return false;
+        if (!Objects.equals(rating, recipe.rating)) return false;
+        if (!Arrays.equals(image, recipe.image)) return false;
         return Objects.equals(description, recipe.description);
     }
 
@@ -69,12 +86,14 @@ public class Recipe implements Serializable {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (ingredients != null ? ingredients.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (rating != 0 ? rating : 0);
+        // image?
         return result;
     }
 
     @Override
     public String toString() {
-        // add rating
-        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + '}';
+        // add image?
+        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + ", rating='" + rating + '\'' + '}';
     }
 }

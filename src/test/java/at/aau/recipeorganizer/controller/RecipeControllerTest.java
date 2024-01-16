@@ -17,6 +17,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,13 +55,18 @@ class RecipeControllerTest {
     private RecipeService recipeService;
 
     private ObjectMapper objectMapper;
+
     private Recipe recipe;
 
+    String imagePath = System.getProperty("user.dir") + "/src/main/resources/images/Pasta.jpg";
+
+    Path path = Paths.get(imagePath);
+
     @BeforeEach
-    public void init() {
+    public void init() throws IOException {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper();
-        recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description");
+        recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
     }
 
     @Test
