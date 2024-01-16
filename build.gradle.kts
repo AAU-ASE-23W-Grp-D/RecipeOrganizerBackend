@@ -84,7 +84,7 @@ jib {
         image = "bellsoft/liberica-openjre-alpine-musl:17"
     }
     to {
-        image = "recipeorganizer/recipeorganizer-ase-main"
+        image = "recipeorganizer/recipeorganizer-ase-" + System.getenv("CURRENT_DEPLOYMENT")
         auth {
             username = "recipeorganizer"
             password = System.getenv("DOCKER_TOKEN")
@@ -92,5 +92,6 @@ jib {
     }
     container {
         ports = listOf("8080/tcp")
+        environment = mapOf("SPRING_PROFILES_ACTIVE" to System.getenv("CURRENT_DEPLOYMENT"))
     }
 }
