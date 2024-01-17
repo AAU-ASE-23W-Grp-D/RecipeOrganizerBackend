@@ -41,7 +41,7 @@ public class RecipeOrganizerApplication {
             // TODO remove this
             // these are just some default values
 
-
+            User testUser2 = new User("testUser2", "test2@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
             User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
             User testUser4 = new User("testUser4", "test4@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
 
@@ -58,17 +58,14 @@ public class RecipeOrganizerApplication {
             Recipe recipe5 = new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta", 5, file);
             Recipe recipe6 = new Recipe("Brot", "Teig", "Beschreibung Brot", 5, file);
 
+            testUser2.addOwnRecipe(recipe1);
+            testUser2.addOwnRecipe(recipe2);
             testUser3.addOwnRecipe(recipe3);
             testUser3.addOwnRecipe(recipe4);
             testUser3.addOwnRecipe(recipe5);
             testUser3.addOwnRecipe(recipe6);
-            if (!users.existsByUsername("testUser2")) {
-                User testUser2 = new User("testUser2", "test2@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
-                testUser2.addOwnRecipe(recipe1);
-                testUser2.addOwnRecipe(recipe2);
-                testUser2.addOwnRecipe(recipe3);
-                users.save(testUser2);
-            }
+            testUser2.removeOwnRecipe(recipe2);
+            users.save(testUser2);
             users.save(testUser3);
             users.save(testUser4);
 

@@ -153,24 +153,24 @@ class AuthControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("Error: Email is already in use!"));
     }
 
-//    @Test
-//    public void testGetOwnRecipes() throws Exception {
-//        User user = new User("testUser", "test@email.com", "testPassword");
-//        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
-//        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
-//        user.addOwnRecipe(recipe1);
-//        user.addOwnRecipe(recipe2);
-//
-//        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
-//        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
-//
-//        mockMvc.perform(get("/api/auth/ownRecipes")
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(2)))
-//                .andExpect(jsonPath("$[0].id").exists())
-//                .andExpect(jsonPath("$[1].id").exists());
-//    }
+    @Test
+    public void testGetOwnRecipes() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/ownRecipes")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[1].id").exists());
+    }
 
 //    @Test
 //    public void testGetLikedRecipes() throws Exception {

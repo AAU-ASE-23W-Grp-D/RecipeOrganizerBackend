@@ -56,39 +56,39 @@ public class AuthController {
         };
     }
 
-//    @GetMapping("/ownRecipes")
-//    public ResponseEntity<List<Recipe>> getOwnRecipes(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-//        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
-//            String token = authorizationHeader.substring(7);
-//            String userName = jwtUtils.getUserNameFromJwtToken(token);
-//            Optional<User> user = userService.getUserFromUserName(userName);
-//
-//            if (user.isPresent()) {
-//                List<Recipe> ownRecipes = new ArrayList<>(user.get().getOwnRecipes());
-//                return ResponseEntity.ok().body(ownRecipes);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//            }
-//        } else {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//        }
-//    }
+    @GetMapping("/ownRecipes")
+    public ResponseEntity<List<Recipe>> getOwnRecipes(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            String userName = jwtUtils.getUserNameFromJwtToken(token);
+            Optional<User> user = userService.getUserFromUserName(userName);
 
-//    @GetMapping("/likedRecipes")
-//    public ResponseEntity<List<Recipe>> getLikedRecipes(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-//        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
-//            String token = authorizationHeader.substring(7);
-//            String userName = jwtUtils.getUserNameFromJwtToken(token);
-//            Optional<User> user = userService.getUserFromUserName(userName);
-//
-//            if (user.isPresent()) {
-//                List<Recipe> likedRecipes = new ArrayList<>(user.get().getLikedRecipes());
-//                return ResponseEntity.ok().body(likedRecipes);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//            }
-//        } else {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//        }
-//    }
+            if (user.isPresent()) {
+                List<Recipe> ownRecipes = new ArrayList<>(user.get().getOwnRecipes());
+                return ResponseEntity.ok().body(ownRecipes);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/likedRecipes")
+    public ResponseEntity<List<Recipe>> getLikedRecipes(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            String userName = jwtUtils.getUserNameFromJwtToken(token);
+            Optional<User> user = userService.getUserFromUserName(userName);
+
+            if (user.isPresent()) {
+                List<Recipe> likedRecipes = new ArrayList<>(user.get().getLikedRecipes());
+                return ResponseEntity.ok().body(likedRecipes);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
