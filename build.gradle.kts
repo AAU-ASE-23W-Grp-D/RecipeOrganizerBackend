@@ -91,7 +91,8 @@ jib {
         }
     }
     container {
-        ports = listOf("8080/tcp")
         environment = mapOf("SPRING_PROFILES_ACTIVE" to System.getenv("CURRENT_DEPLOYMENT"))
+        jvmFlags = listOf("-Xms256m", "-Xmx256m")
+        ports = listOf("8080/tcp")
     }
 }
