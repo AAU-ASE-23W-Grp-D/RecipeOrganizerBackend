@@ -89,12 +89,14 @@ jobs:
       run: ./gradlew build sonar --info
 
     - name: Build Docker image and upload to Docker Hub
+      if: ${{ success() && github.event_name == 'push' }}
       env:
           CURRENT_DEPLOYMENT: ${{ github.ref_name }}
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       run: ./gradlew jib
 
     - name: Deploy to Render
+      if: ${{ success() && github.event_name == 'push' }}
       env:
           DEPLOY_URL_MAIN: ${{ secrets.RENDER_DEPLOY_HOOK_URL_MAIN }}
           DEPLOY_URL_DEVELOP: ${{ secrets.RENDER_DEPLOY_HOOK_URL_DEVELOP }}
