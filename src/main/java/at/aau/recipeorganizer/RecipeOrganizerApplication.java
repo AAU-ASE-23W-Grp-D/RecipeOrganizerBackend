@@ -67,7 +67,6 @@ public class RecipeOrganizerApplication {
                 testUser2.addOwnRecipe(recipe1);
                 testUser2.addOwnRecipe(recipe2);
                 testUser2.addOwnRecipe(recipe3);
-                testUser2.addLikedRecipe(recipe5);
                 users.save(testUser2);
             }
             users.save(testUser3);
