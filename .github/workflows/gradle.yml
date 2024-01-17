@@ -96,5 +96,13 @@ jobs:
 
     - name: Deploy to Render
       env:
-        DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL + "_" +  github.ref_name }}
-      run: curl "$DEPLOY_URL"
+          DEPLOY_URL_MAIN: ${{ secrets.RENDER_DEPLOY_HOOK_URL_MAIN }}
+          DEPLOY_URL_DEVELOP: ${{ secrets.RENDER_DEPLOY_HOOK_URL_DEVELOP }}
+      run: |
+          if [[ ${{ github.ref_name }} == "main" ]]; then
+            echo "Deploy to Render recipeorganizer-ase-main"
+            curl "$DEPLOY_URL_MAIN"
+          else
+            echo "Deploy to Render recipeorganizer-ase-develop"
+            curl "$DEPLOY_URL_DEVELOP"
+          fi
