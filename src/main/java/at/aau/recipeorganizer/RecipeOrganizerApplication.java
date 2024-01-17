@@ -40,6 +40,10 @@ public class RecipeOrganizerApplication {
         return args -> {
             // TODO remove this
             // these are just some default values
+            // If there are already some recipes then don't create the default values again
+            if (recipes.count() > 0) {
+                return;
+            }
 
             User testUser2 = new User("testUser2", "test2@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
             User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
