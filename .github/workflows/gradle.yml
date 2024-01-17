@@ -93,3 +93,8 @@ jobs:
           CURRENT_DEPLOYMENT: ${{ github.ref_name }}
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       run: ./gradlew jib
+
+    - name: Deploy to Render
+      env:
+        DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL + "_" +  github.ref_name }}
+      run: curl "$DEPLOY_URL"
