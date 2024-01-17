@@ -1,9 +1,10 @@
 plugins {
     id("java")
     id("jacoco")
-    id("org.springframework.boot") version "3.2.0"
+    id("org.springframework.boot") version "3.2.1"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.sonarqube") version "4.4.1.3373"
+    id("com.google.cloud.tools.jib") version "3.4.0"
 }
 
 group = "at.aau"
@@ -75,5 +76,22 @@ sonar {
         property("sonar.projectKey", "AAU-ASE-23W-Grp-D_RecipeOrganizerBackend")
         property("sonar.organization", "aau-ase-23w-grp-d")
         property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
+jib {
+    from {
+        image = "bellsoft/liberica-openjre-alpine-musl:17"
+    }
+    to {
+        image = "recipeorganizer/recipeorganizer-ase-" + System.getenv("CURRENT_DEPLOYMENT")
+        auth {
+            username = "recipeorganizer"
+            password = System.getenv("DOCKER_TOKEN")
+        }
+    }
+    container {
+        ports = listOf("8080/tcp")
+        environment = mapOf("SPRING_PROFILES_ACTIVE" to System.getenv("CURRENT_DEPLOYMENT"))
     }
 }

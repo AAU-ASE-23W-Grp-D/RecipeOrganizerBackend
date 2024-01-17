@@ -80,10 +80,21 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
-        arguments: build 
+        arguments: build
 
     - name: Analyze with SonarCloud
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew build sonar --info
+
+    - name: Build Docker image and upload to Docker Hub
+      env:
+          CURRENT_DEPLOYMENT: ${{ github.ref_name }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      run: ./gradlew jib
+
+    - name: Deploy to Render
+      env:
+        DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL + "_" +  github.ref_name }}
+      run: curl "$DEPLOY_URL"
