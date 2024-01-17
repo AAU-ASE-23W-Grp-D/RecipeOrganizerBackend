@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,10 +21,6 @@ public class RecipeOrganizerApplication {
     public static void main(String[] args) {
         SpringApplication.run(RecipeOrganizerApplication.class);
     }
-
-    String imagePath = System.getProperty("user.dir") + "/src/main/resources/images/Pasta.jpg";
-
-    Path path = Paths.get(imagePath);
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -47,12 +44,18 @@ public class RecipeOrganizerApplication {
             User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$v9ykV0/PH0EOAC12pfqWlu4YzsykY8u0TLcd1hnex0I0oGES.htoO");
             User testUser4 = new User("testUser4", "test4@email.com", "$2a$12$v9ykV0/PH0EOAC12pfqWlu4YzsykY8u0TLcd1hnex0I0oGES.htoO");
 
-            Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza", 5, Files.readAllBytes(path));
-            Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta", 5, Files.readAllBytes(path));
-            Recipe recipe3 = new Recipe("Brot", "Teig", "Beschreibung Brot", 5, Files.readAllBytes(path));
-            Recipe recipe4 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza", 5, Files.readAllBytes(path));
-            Recipe recipe5 = new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta", 5, Files.readAllBytes(path));
-            Recipe recipe6 = new Recipe("Brot", "Teig", "Beschreibung Brot", 5, Files.readAllBytes(path));
+            byte[] file = new byte[0];
+            URL url = getClass().getResource("/images/Pasta.jpg");
+            if (url != null) {
+                Path path = Paths.get(url.toURI());
+                file = Files.readAllBytes(path);
+            }
+            Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza", 5, file);
+            Recipe recipe2= new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta", 5, file);
+            Recipe recipe3 = new Recipe("Brot", "Teig", "Beschreibung Brot", 5, file);
+            Recipe recipe4 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza", 5, file);
+            Recipe recipe5 = new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta", 5, file);
+            Recipe recipe6 = new Recipe("Brot", "Teig", "Beschreibung Brot", 5, file);
 
             testUser2.addOwnRecipe(recipe1);
             testUser2.addOwnRecipe(recipe2);
