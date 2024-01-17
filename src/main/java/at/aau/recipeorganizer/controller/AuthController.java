@@ -2,7 +2,7 @@ package at.aau.recipeorganizer.controller;
 
 import at.aau.recipeorganizer.configuration.jwt.JwtUtils;
 import at.aau.recipeorganizer.data.*;
-import at.aau.recipeorganizer.repository.RecipeRepository;
+import at.aau.recipeorganizer.service.RecipeService;
 import at.aau.recipeorganizer.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -24,11 +24,14 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserService userService;
+    private final RecipeService service;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService) {
+
+    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService, RecipeService recipeService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.userService = userService;
+        this.service = recipeService;
     }
 
     @PostMapping("/signin")
@@ -54,6 +57,24 @@ public class AuthController {
             case EMAIL_TAKEN -> ResponseEntity.badRequest().body("Error: Email is already in use!");
             case SUCCESS -> ResponseEntity.ok("User registered successfully!");
         };
+    }
+
+    @PostMapping("/postRecipe")
+    public ResponseEntity<Recipe> save(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            String userName = jwtUtils.getUserNameFromJwtToken(token);
+            Optional<User> user = userService.getUserFromUserName(userName);
+
+            if (user.isPresent()) {
+                user.get().addOwnRecipe(recipe);
+                return ResponseEntity.ok(service.save(recipe));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping("/ownRecipes")
