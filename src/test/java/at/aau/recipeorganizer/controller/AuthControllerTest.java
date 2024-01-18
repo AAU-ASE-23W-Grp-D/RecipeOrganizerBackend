@@ -157,7 +157,14 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testGetOwnRecipes() throws Exception {
+    public void testSignOut() throws Exception {
+        mockMvc.perform(post("/api/auth/signout"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Sign out successfully!"));
+    }
+
+    @Test
+    public void testGetOwnRecipes_Success() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
@@ -175,6 +182,21 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$[1].id").exists());
     }
 
+    @Test
+    public void testGetOwnRecipes_Failure() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/ownRecipes")
+                        .header(HttpHeaders.AUTHORIZATION, ""))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
     public void testPostRecipe() throws Exception {

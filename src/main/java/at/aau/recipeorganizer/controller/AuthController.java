@@ -59,6 +59,16 @@ public class AuthController {
         };
     }
 
+    @PostMapping("/signout")
+    public ResponseEntity<String> logoutUser() {
+        try {
+            SecurityContextHolder.clearContext();
+            return ResponseEntity.ok("Sign out successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sign out failure!");
+        }
+    }
+
     @PostMapping("/postRecipe")
     public ResponseEntity<Recipe> save(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
