@@ -23,6 +23,7 @@ CREATE TABLE recipes (
     ingredients TEXT,
     description TEXT,
     rating INTEGER,
+    rating_amount INTEGER,
     image BYTEA
 );
 
