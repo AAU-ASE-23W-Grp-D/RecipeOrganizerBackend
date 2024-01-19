@@ -1,12 +1,8 @@
 package at.aau.recipeorganizer.data;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class UserTest {
     private User user;
 
-    String imagePath = System.getProperty("user.dir") + "/src/main/resources/images/Pasta.jpg";
-
-    Path path = Paths.get(imagePath);
+    private final byte[] image = new byte[]{0x01};
 
     @BeforeEach
     public void init() {
@@ -40,8 +34,8 @@ class UserTest {
 
     @Test
     void testAddOwnRecipe() throws IOException {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
@@ -51,8 +45,8 @@ class UserTest {
 
     @Test
     void testAddLikedRecipe() throws IOException {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
@@ -62,8 +56,8 @@ class UserTest {
 
     @Test
     void testRemoveOwnRecipe() throws IOException {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
@@ -77,8 +71,8 @@ class UserTest {
 
     @Test
     void testRemoveLikedRecipe() throws IOException {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
@@ -127,15 +121,5 @@ class UserTest {
         user.setId(1L);
 
         assertEquals(1L, user.getId());
-    }
-
-    private byte[] loadImageFromFile(String filePath) {
-        try {
-            Path path = Paths.get(filePath);
-            return Files.readAllBytes(path);
-        } catch (Exception e) {
-            // error message
-            return new byte[0];
-        }
     }
 }

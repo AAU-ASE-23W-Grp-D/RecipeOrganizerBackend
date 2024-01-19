@@ -5,7 +5,6 @@ import at.aau.recipeorganizer.data.SignupRequest;
 import at.aau.recipeorganizer.data.User;
 import at.aau.recipeorganizer.repository.RoleRepository;
 import at.aau.recipeorganizer.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

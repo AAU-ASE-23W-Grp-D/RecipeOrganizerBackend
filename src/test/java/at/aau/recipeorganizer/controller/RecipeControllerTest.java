@@ -1,9 +1,6 @@
 package at.aau.recipeorganizer.controller;
 
 import at.aau.recipeorganizer.data.Recipe;
-import at.aau.recipeorganizer.repository.RecipeRepository;
-import at.aau.recipeorganizer.repository.RoleRepository;
-import at.aau.recipeorganizer.repository.UserRepository;
 import at.aau.recipeorganizer.service.RecipeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,30 +37,19 @@ class RecipeControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private RoleRepository roleRepository;
-
-    @MockBean
-    private RecipeRepository recipeRepository;
-
-    @MockBean
     private RecipeService recipeService;
 
     private ObjectMapper objectMapper;
 
     private Recipe recipe;
 
-    String imagePath = System.getProperty("user.dir") + "/src/main/resources/images/Pasta.jpg";
-
-    Path path = Paths.get(imagePath);
+    private final byte[] image = new byte[]{0x01};
 
     @BeforeEach
     public void init() throws IOException {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper();
-        recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description", 5, Files.readAllBytes(path));
+        recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description", 5, 1, image);
     }
 
     @Test

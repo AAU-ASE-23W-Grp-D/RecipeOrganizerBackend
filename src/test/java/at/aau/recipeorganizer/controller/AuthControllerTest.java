@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,20 +18,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static at.aau.recipeorganizer.configuration.jwt.JwtUtils.JWT_COOKIE;
@@ -40,7 +31,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -55,12 +45,6 @@ class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private RoleRepository roleRepository;
 
     @MockBean
     private RecipeRepository recipeRepository;
@@ -166,8 +150,8 @@ class AuthControllerTest {
     @Test
     public void testGetOwnRecipes_Success() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
 
@@ -185,8 +169,8 @@ class AuthControllerTest {
     @Test
     public void testGetOwnRecipes_Failure() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
 
@@ -201,7 +185,7 @@ class AuthControllerTest {
     @Test
     public void testPostRecipe() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, null);
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, null);
 
         when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
         when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
@@ -222,8 +206,8 @@ class AuthControllerTest {
 //    @Test
 //    public void testGetLikedRecipes() throws Exception {
 //        User user = new User("testUser", "test@email.com", "testPassword");
-//        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, image);
-//        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, image);
+//        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+//        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 //        user.addLikedRecipe(recipe1);
 //        user.addLikedRecipe(recipe2);
 //

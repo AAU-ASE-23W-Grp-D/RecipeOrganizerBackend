@@ -1,6 +1,5 @@
 package at.aau.recipeorganizer.data;
 
-
 import jakarta.persistence.*;
 
 @Entity

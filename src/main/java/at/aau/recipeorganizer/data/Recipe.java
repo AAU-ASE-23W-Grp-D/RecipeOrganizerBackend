@@ -32,6 +32,9 @@ public class Recipe implements Serializable {
     @Max(value = 5, message = "Rating should not be greater than 5")
     public int rating;
 
+    @Column(name = "rating_amount")
+    public int rating_amount;
+
     @Column(name= "image", columnDefinition="BYTEA")
     public byte[] image;
 
@@ -45,11 +48,12 @@ public class Recipe implements Serializable {
         return likedByUser;
     }
 
-    public Recipe(String name, String ingredients, String description, int rating, byte[] image) {
+    public Recipe(String name, String ingredients, String description, int rating, int rating_amount, byte[] image) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
         this.rating = rating;
+        this.rating_amount = rating_amount;
         this.image = image;
     }
 
@@ -60,7 +64,8 @@ public class Recipe implements Serializable {
         if (recipe.name != null) this.name = recipe.name;
         if (recipe.ingredients != null) this.ingredients = recipe.ingredients;
         if (recipe.description != null) this.description = recipe.description;
-        if (recipe.rating != 0) this.rating = recipe.rating;
+        this.rating = recipe.rating;
+        this.rating_amount = recipe.rating_amount;
         if (recipe.image != null) this.image = recipe.image;
 
         return this;
@@ -75,7 +80,8 @@ public class Recipe implements Serializable {
 
         if (id != recipe.id) return false;
         if (!Objects.equals(name, recipe.name)) return false;
-        if (!Objects.equals(rating, recipe.rating)) return false;
+        if (rating !=recipe.rating) return false;
+        if (rating_amount != recipe.rating_amount) return false;
         if (!Arrays.equals(image, recipe.image)) return false;
         return Objects.equals(description, recipe.description);
     }
@@ -87,6 +93,7 @@ public class Recipe implements Serializable {
         result = 31 * result + (ingredients != null ? ingredients.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (rating != 0 ? rating : 0);
+        result = 31 * result + (rating_amount != 0 ? rating_amount : 0);
         // image?
         return result;
     }
@@ -94,6 +101,6 @@ public class Recipe implements Serializable {
     @Override
     public String toString() {
         // add image?
-        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + ", rating='" + rating + '\'' + '}';
+        return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", ingredients='" + ingredients + '\'' + ", description='" + description + '\'' + ", rating='" + rating + '\'' + ", rating_amount='" + rating_amount + '\'' + '}';
     }
 }

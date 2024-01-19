@@ -55,12 +55,12 @@ public class RecipeOrganizerApplication {
                 Path path = Paths.get(url.toURI());
                 file = Files.readAllBytes(path);
             }
-            Recipe recipe1 = new Recipe("Pizza", "100g*Teig,200g*Tomaten", "Beschreibung Pizza", 2, file);
-            Recipe recipe2= new Recipe("Pasta", "100g*Nudel,200g*Tomaten", "Beschreibung Pasta", 4, file);
-            Recipe recipe3 = new Recipe("Brot", "1kg*Teig", "Beschreibung Brot", 3, file);
-            Recipe recipe4 = new Recipe("Pizza", "100g*Teig,1kg*Tomaten", "Beschreibung Pizza", 1, file);
-            Recipe recipe5 = new Recipe("Pasta", "1000g*Nudel,100g*Tomaten", "Beschreibung Pasta", 4, file);
-            Recipe recipe6 = new Recipe("Brot", "200g*Teig", "Beschreibung Brot", 3, file);
+            Recipe recipe1 = new Recipe("Pizza", "100g*Teig,200g*Tomaten", "Beschreibung Pizza", 2, 1, file);
+            Recipe recipe2= new Recipe("Pasta", "100g*Nudel,200g*Tomaten", "Beschreibung Pasta", 4, 1, file);
+            Recipe recipe3 = new Recipe("Brot", "1kg*Teig", "Beschreibung Brot", 3, 1, file);
+            Recipe recipe4 = new Recipe("Pizza", "100g*Teig,1kg*Tomaten", "Beschreibung Pizza", 1, 1, file);
+            Recipe recipe5 = new Recipe("Pasta", "1000g*Nudel,100g*Tomaten", "Beschreibung Pasta", 4, 1, file);
+            Recipe recipe6 = new Recipe("Brot", "200g*Teig", "Beschreibung Brot", 3, 1, file);
 
             testUser2.addOwnRecipe(recipe1);
             testUser2.addOwnRecipe(recipe2);
