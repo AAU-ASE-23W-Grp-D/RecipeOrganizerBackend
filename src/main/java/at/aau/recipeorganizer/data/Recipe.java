@@ -38,10 +38,7 @@ public class Recipe implements Serializable {
     @Column(name= "image", columnDefinition="BYTEA")
     public byte[] image;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "liked_by_user",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(mappedBy = "likedRecipes")
     private Set<User> likedByUser = new HashSet<>();
 
     public Set<User> getLikedByUser() {

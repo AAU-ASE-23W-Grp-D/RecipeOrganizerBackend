@@ -70,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/postRecipe")
-    public ResponseEntity<Recipe> save(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
+    public ResponseEntity<Recipe> saveRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
             String userName = jwtUtils.getUserNameFromJwtToken(token);
@@ -78,6 +78,24 @@ public class AuthController {
 
             if (user.isPresent()) {
                 user.get().addOwnRecipe(recipe);
+                return ResponseEntity.ok(service.save(recipe));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PostMapping("/postLikedRecipe")
+    public ResponseEntity<Recipe> saveLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            String userName = jwtUtils.getUserNameFromJwtToken(token);
+            Optional<User> user = userService.getUserFromUserName(userName);
+
+            if (user.isPresent()) {
+                user.get().addLikedRecipe(recipe);
                 return ResponseEntity.ok(service.save(recipe));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
