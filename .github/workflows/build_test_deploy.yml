@@ -16,43 +16,25 @@ permissions:
 jobs:
   build_test_deploy:
     runs-on: ubuntu-latest
-    container: node:latest
-    
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: recipeorganizer
-          POSTGRES_USER: postgres
-          POSTGRES_PORT: 5432
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0 # Disabling shallow clones is recommended for improving the relevancy of reporting
 
-    - name: Install PostgreSQL client
-      run: |
-          apt-get update
-          apt-get install --yes postgresql-client
-          
-    - name: Query database
-      run: psql -h postgres -d recipeorganizer -U postgres -c 'SELECT 1;'
-      env:
-        PGPASSWORD: postgres
+    - uses: ikalnytskyi/action-setup-postgres@v5
+      with:
+        username: postgres
+        password: postgres
+        database: recipeorganizer
+        port: 5432
+      id: postgres
 
     - name: Create tables in PostgreSQL database
-      run: psql -h postgres -d recipeorganizer -U postgres -f database.sql
+      run: psql -f database.sql
       env:
-        PGPASSWORD: postgres
+        PGSERVICE: ${{ steps.postgres.outputs.service-name }}
+      shell: bash
 
     - name: Set Spring profile to ci
       run: echo "SPRING_PROFILES_ACTIVE=ci" >> $GITHUB_ENV
