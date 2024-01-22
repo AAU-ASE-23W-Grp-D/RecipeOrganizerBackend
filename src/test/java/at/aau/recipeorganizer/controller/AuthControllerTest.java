@@ -139,14 +139,14 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testSignOut() throws Exception {
+    void testSignOut() throws Exception {
         mockMvc.perform(post("/api/auth/signout"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Sign out successfully!"));
     }
 
     @Test
-    public void testGetOwnRecipes_Success() throws Exception {
+    void testGetOwnRecipes_Success() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
@@ -165,7 +165,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testGetOwnRecipes_Failure() throws Exception {
+    void testGetOwnRecipes_Failure() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
@@ -181,7 +181,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testPostRecipe() throws Exception {
+    void testPostRecipe() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
 
@@ -203,7 +203,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testGetLikedRecipes_Success() throws Exception {
+    void testGetLikedRecipes_Success() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
@@ -222,7 +222,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testGetLikedRecipes_Failure() throws Exception {
+    void testGetLikedRecipes_Failure() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
@@ -238,7 +238,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testPostLikedRecipe() throws Exception {
+    void testPostLikedRecipe() throws Exception {
         User user = new User("testUser", "test@email.com", "testPassword");
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
 
