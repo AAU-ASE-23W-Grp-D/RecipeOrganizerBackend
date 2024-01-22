@@ -1,5 +1,6 @@
 package at.aau.recipeorganizer.data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -54,6 +55,7 @@ public class User implements UserDetails {
     @JoinTable(name = "liked_recipes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    @JsonBackReference
     private Set<Recipe> likedRecipes = new HashSet<>();
 
     public Set<Recipe> getOwnRecipes() {
@@ -69,8 +71,8 @@ public class User implements UserDetails {
     }
 
     public void addLikedRecipe(Recipe recipe) {
-        likedRecipes.add(recipe);
         recipe.getLikedByUser().add(this);
+        likedRecipes.add(recipe);
     }
 
     public void removeOwnRecipe(Recipe recipe) {
@@ -78,8 +80,8 @@ public class User implements UserDetails {
     }
 
     public void removeLikedRecipe(Recipe recipe) {
-        likedRecipes.remove(recipe);
         recipe.getLikedByUser().remove(this);
+        likedRecipes.remove(recipe);
     }
 
     public User() {

@@ -1,13 +1,8 @@
 package at.aau.recipeorganizer.controller;
 
 import at.aau.recipeorganizer.configuration.jwt.JwtUtils;
-import at.aau.recipeorganizer.data.LoginRequest;
-import at.aau.recipeorganizer.data.Role;
-import at.aau.recipeorganizer.data.SignupRequest;
-import at.aau.recipeorganizer.data.User;
+import at.aau.recipeorganizer.data.*;
 import at.aau.recipeorganizer.repository.RecipeRepository;
-import at.aau.recipeorganizer.repository.RoleRepository;
-import at.aau.recipeorganizer.repository.UserRepository;
 import at.aau.recipeorganizer.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,9 +22,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Optional;
+
 import static at.aau.recipeorganizer.configuration.jwt.JwtUtils.JWT_COOKIE;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,12 +43,6 @@ class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private RoleRepository roleRepository;
 
     @MockBean
     private RecipeRepository recipeRepository;
@@ -65,6 +60,8 @@ class AuthControllerTest {
     private Authentication authentication;
 
     private ObjectMapper objectMapper;
+
+    private final byte[] image = new byte[]{0x01};
 
     @BeforeEach
     public void init() {
@@ -139,5 +136,126 @@ class AuthControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.content().string("Error: Email is already in use!"));
+    }
+
+    @Test
+    void testSignOut() throws Exception {
+        mockMvc.perform(post("/api/auth/signout"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Sign out successfully!"));
+    }
+
+    @Test
+    void testGetOwnRecipes_Success() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/ownRecipes")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[1].id").exists());
+    }
+
+    @Test
+    void testGetOwnRecipes_Failure() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/ownRecipes")
+                        .header(HttpHeaders.AUTHORIZATION, ""))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testPostRecipe() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+        when(recipeRepository.save(any(Recipe.class))).thenReturn(recipe1);
+
+        mockMvc.perform(post("/api/auth/postRecipe")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken")
+                        .content(objectMapper.writeValueAsString(recipe1))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("Test Recipe 1"))
+                .andExpect(jsonPath("$.ingredients").value("Test Ingredient"))
+                .andExpect(jsonPath("$.description").value("Test Description"))
+                .andExpect(jsonPath("$.rating").value(5))
+                .andExpect(jsonPath("$.rating_amount").value(1));
+    }
+
+    @Test
+    void testGetLikedRecipes_Success() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/likedRecipes")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[1].id").exists());
+    }
+
+    @Test
+    void testGetLikedRecipes_Failure() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/likedRecipes")
+                        .header(HttpHeaders.AUTHORIZATION, ""))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testPostLikedRecipe() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+        when(recipeRepository.save(any(Recipe.class))).thenReturn(recipe1);
+
+        mockMvc.perform(post("/api/auth/postLikedRecipe")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken")
+                        .content(objectMapper.writeValueAsString(recipe1))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("Test Recipe 1"))
+                .andExpect(jsonPath("$.ingredients").value("Test Ingredient"))
+                .andExpect(jsonPath("$.description").value("Test Description"))
+                .andExpect(jsonPath("$.rating").value(5))
+                .andExpect(jsonPath("$.rating_amount").value(1));
     }
 }

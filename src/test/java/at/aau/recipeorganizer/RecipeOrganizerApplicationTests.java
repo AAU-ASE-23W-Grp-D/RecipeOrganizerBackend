@@ -10,8 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Arrays;
-
 @SpringBootTest
 class RecipeOrganizerApplicationTests {
     @MockBean
@@ -30,15 +28,9 @@ class RecipeOrganizerApplicationTests {
 
     @Test
     void testDefaultRecipesAreLoaded() throws Exception {
-//        Recipe recipe1 = new Recipe("Pizza", "Teig, Tomaten", "Beschreibung Pizza");
-//        Recipe recipe2 = new Recipe("Pasta", "Nudel, Tomaten", "Beschreibung Pasta");
-//        Recipe recipe3 = new Recipe("Brot", "Teig", "Beschreibung Brot");
-//
-//        Mockito.when(recipeRepository.findAll()).thenReturn(Arrays.asList(recipe1, recipe2, recipe3));
-
         CommandLineRunner initDatabase = new RecipeOrganizerApplication().initDatabase(userRepository, recipeRepository);
         initDatabase.run();
 
-        Mockito.verify(recipeRepository, Mockito.times(3)).save(Mockito.any(Recipe.class));
+        Mockito.verify(recipeRepository, Mockito.times(6)).save(Mockito.any(Recipe.class));
     }
 }

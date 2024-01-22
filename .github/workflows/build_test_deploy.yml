@@ -1,0 +1,82 @@
+name: Build, Run Tests and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  build_test_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Disabling shallow clones is recommended for improving the relevancy of reporting
+
+    - uses: ikalnytskyi/action-setup-postgres@v5
+      with:
+        username: postgres
+        password: postgres
+        database: recipeorganizer
+        port: 5432
+      id: postgres
+
+    - name: Create tables in PostgreSQL database
+      run: psql -f database.sql
+      env:
+        PGSERVICE: ${{ steps.postgres.outputs.service-name }}
+      shell: bash
+
+    - name: Set Spring profile to ci
+      run: echo "SPRING_PROFILES_ACTIVE=ci" >> $GITHUB_ENV
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        cache-read-only: false # Allow writing cache entries on non-default branches
+        gradle-version: 8.2
+
+    - name: Execute Gradle build
+      run: ./gradlew build
+
+    - name: Analyze with SonarCloud
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: ./gradlew sonar --info
+
+    - name: Build Docker image and upload to Docker Hub
+      if: ${{ success() && github.event_name == 'push' }}
+      env:
+          CURRENT_DEPLOYMENT: ${{ github.ref_name }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      run: ./gradlew jib
+
+    - name: Deploy to Render
+      if: ${{ success() && github.event_name == 'push' }}
+      env:
+          DEPLOY_URL_MAIN: ${{ secrets.RENDER_DEPLOY_HOOK_URL_MAIN }}
+          DEPLOY_URL_DEVELOP: ${{ secrets.RENDER_DEPLOY_HOOK_URL_DEVELOP }}
+      run: |
+          if ${{ (github.ref_name == 'main') }} == 'true'; then
+            echo "Deploy to Render recipeorganizer-ase-main"
+            curl "$DEPLOY_URL_MAIN"
+          else
+            echo "Deploy to Render recipeorganizer-ase-develop"
+            curl "$DEPLOY_URL_DEVELOP"
+          fi

@@ -1,7 +1,6 @@
 package at.aau.recipeorganizer.configuration.jwt;
 
 import at.aau.recipeorganizer.data.User;
-import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseCookie;

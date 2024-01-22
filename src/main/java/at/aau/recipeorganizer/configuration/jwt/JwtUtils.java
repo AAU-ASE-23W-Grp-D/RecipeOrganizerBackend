@@ -1,6 +1,5 @@
 package at.aau.recipeorganizer.configuration.jwt;
 
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;

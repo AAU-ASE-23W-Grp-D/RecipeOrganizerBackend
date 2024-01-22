@@ -12,8 +12,8 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE user_roles (
-    user_id INTEGER REFERENCES users(id),
-    role_id INTEGER REFERENCES roles(role_id),
+    user_id BIGINT REFERENCES users(id),
+    role_id BIGINT REFERENCES roles(role_id),
     PRIMARY KEY (user_id, role_id)
 );
 
@@ -21,18 +21,27 @@ CREATE TABLE recipes (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     ingredients TEXT,
-    description TEXT
+    description TEXT,
+    rating INTEGER,
+    rating_amount INTEGER,
+    image BYTEA
 );
 
 CREATE TABLE own_recipes (
-    user_id INTEGER REFERENCES users(id),
-    recipe_id INTEGER REFERENCES recipes(id),
+    user_id BIGINT REFERENCES users(id),
+    recipe_id BIGINT REFERENCES recipes(id),
     PRIMARY KEY (user_id, recipe_id)
 );
 
 CREATE TABLE liked_recipes (
-    user_id INTEGER REFERENCES users(id),
-    recipe_id INTEGER REFERENCES recipes(id),
+    user_id BIGINT REFERENCES users(id),
+    recipe_id BIGINT REFERENCES recipes(id),
+    PRIMARY KEY (user_id, recipe_id)
+);
+
+CREATE TABLE liked_by_user (
+    recipe_id BIGINT REFERENCES recipes(id),
+    user_id BIGINT REFERENCES users(id),
     PRIMARY KEY (user_id, recipe_id)
 );
 
