@@ -7,12 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserTest {
     private User user;
+    private Recipe recipe1;
+    private Recipe recipe2;
 
     private final byte[] image = new byte[]{0x01};
 
     @BeforeEach
     public void init() {
         user = new User("testUser", "test@email.com", "testPassword");
+
+        recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
     }
 
     @Test
@@ -32,9 +37,6 @@ class UserTest {
 
     @Test
     void testGetOwnRecipe() {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
-
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
 
@@ -44,9 +46,6 @@ class UserTest {
 
     @Test
     void testGetLikedRecipe() {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
-
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
 
@@ -56,9 +55,6 @@ class UserTest {
 
     @Test
     void testAddOwnRecipe() {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
-
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
 
@@ -67,9 +63,6 @@ class UserTest {
 
     @Test
     void testAddLikedRecipe() {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
-
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
 
@@ -78,9 +71,6 @@ class UserTest {
 
     @Test
     void testRemoveOwnRecipe() {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
-
         user.addOwnRecipe(recipe1);
         user.addOwnRecipe(recipe2);
 
@@ -93,9 +83,6 @@ class UserTest {
 
     @Test
     void testRemoveLikedRecipe() {
-        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
-        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
-
         user.addLikedRecipe(recipe1);
         user.addLikedRecipe(recipe2);
 
