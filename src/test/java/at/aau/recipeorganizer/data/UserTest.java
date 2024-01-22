@@ -2,8 +2,6 @@ package at.aau.recipeorganizer.data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,7 +31,31 @@ class UserTest {
     }
 
     @Test
-    void testAddOwnRecipe() throws IOException {
+    void testGetOwnRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
+
+        user.addOwnRecipe(recipe1);
+        user.addOwnRecipe(recipe2);
+
+        assertTrue(user.getOwnRecipes().contains(recipe1));
+        assertTrue(user.getOwnRecipes().contains(recipe2));
+    }
+
+    @Test
+    void testGetLikedRecipe() {
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
+
+        user.addLikedRecipe(recipe1);
+        user.addLikedRecipe(recipe2);
+
+        assertTrue(user.getLikedRecipes().contains(recipe1));
+        assertTrue(user.getLikedRecipes().contains(recipe2));
+    }
+
+    @Test
+    void testAddOwnRecipe() {
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
@@ -44,7 +66,7 @@ class UserTest {
     }
 
     @Test
-    void testAddLikedRecipe() throws IOException {
+    void testAddLikedRecipe() {
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
@@ -55,7 +77,7 @@ class UserTest {
     }
 
     @Test
-    void testRemoveOwnRecipe() throws IOException {
+    void testRemoveOwnRecipe() {
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
@@ -70,7 +92,7 @@ class UserTest {
     }
 
     @Test
-    void testRemoveLikedRecipe() throws IOException {
+    void testRemoveLikedRecipe() {
         Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
         Recipe recipe2 = new Recipe("Test Recipe 2", "Test Ingredient", "Test Description", 5, 1, image);
 
