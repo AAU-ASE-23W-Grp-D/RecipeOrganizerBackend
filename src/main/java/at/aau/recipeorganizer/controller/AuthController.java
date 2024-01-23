@@ -25,7 +25,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
     private final RecipeService service;
-    private final String bearer = "Bearer ";
+    private static final String bearer = "Bearer ";
 
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService, RecipeService recipeService) {
@@ -89,7 +89,7 @@ public class AuthController {
     }
 
     @PostMapping("/postLikedRecipe")
-    public ResponseEntity<Recipe> saveLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
+    public ResponseEntity<String> saveLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(bearer)) {
             String token = authorizationHeader.substring(7);
             String userName = jwtUtils.getUserNameFromJwtToken(token);
@@ -97,7 +97,25 @@ public class AuthController {
 
             if (user.isPresent()) {
                 user.get().addLikedRecipe(recipe);
-                return ResponseEntity.ok(service.save(recipe));
+                return ResponseEntity.ok("Liked recipe successfully!");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PostMapping("/removeLikedRecipe")
+    public ResponseEntity<String> removeLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(bearer)) {
+            String token = authorizationHeader.substring(7);
+            String userName = jwtUtils.getUserNameFromJwtToken(token);
+            Optional<User> user = userService.getUserFromUserName(userName);
+
+            if (user.isPresent()) {
+                user.get().removeLikedRecipe(recipe);
+                return ResponseEntity.ok("Unliked recipe successfully!");
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
