@@ -18,6 +18,9 @@ import java.nio.file.Paths;
 
 @SpringBootApplication
 public class RecipeOrganizerApplication {
+
+    private final String password = "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm";
+
     public static void main(String[] args) {
         SpringApplication.run(RecipeOrganizerApplication.class);
     }
@@ -45,9 +48,9 @@ public class RecipeOrganizerApplication {
                 return;
             }
 
-            User testUser2 = new User("testUser2", "test2@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
-            User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
-            User testUser4 = new User("testUser4", "test4@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
+            User testUser2 = new User("testUser2", "test2@email.com", password);
+            User testUser3 = new User("testUser3", "test3@email.com", password);
+            User testUser4 = new User("testUser4", "test4@email.com", password);
 
             byte[] file = new byte[0];
             URL url = getClass().getResource("/images/Pasta.jpg");

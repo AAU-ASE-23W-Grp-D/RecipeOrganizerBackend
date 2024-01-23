@@ -25,6 +25,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
     private final RecipeService service;
+    private final String bearer = "Bearer ";
 
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService, RecipeService recipeService) {
@@ -71,7 +72,7 @@ public class AuthController {
 
     @PostMapping("/postRecipe")
     public ResponseEntity<Recipe> saveRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
-        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(bearer)) {
             String token = authorizationHeader.substring(7);
             String userName = jwtUtils.getUserNameFromJwtToken(token);
             Optional<User> user = userService.getUserFromUserName(userName);
@@ -89,7 +90,7 @@ public class AuthController {
 
     @PostMapping("/postLikedRecipe")
     public ResponseEntity<Recipe> saveLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
-        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(bearer)) {
             String token = authorizationHeader.substring(7);
             String userName = jwtUtils.getUserNameFromJwtToken(token);
             Optional<User> user = userService.getUserFromUserName(userName);
@@ -107,7 +108,7 @@ public class AuthController {
 
     @GetMapping("/ownRecipes")
     public ResponseEntity<List<Recipe>> getOwnRecipes(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(bearer)) {
             String token = authorizationHeader.substring(7);
             String userName = jwtUtils.getUserNameFromJwtToken(token);
             Optional<User> user = userService.getUserFromUserName(userName);
@@ -125,7 +126,7 @@ public class AuthController {
 
     @GetMapping("/likedRecipes")
     public ResponseEntity<List<Recipe>> getLikedRecipes(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(bearer)) {
             String token = authorizationHeader.substring(7);
             String userName = jwtUtils.getUserNameFromJwtToken(token);
             Optional<User> user = userService.getUserFromUserName(userName);
