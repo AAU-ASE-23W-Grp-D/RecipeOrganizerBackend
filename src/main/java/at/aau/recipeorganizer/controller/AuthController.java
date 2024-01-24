@@ -26,7 +26,8 @@ public class AuthController {
     private final UserService userService;
     private final RecipeService service;
     private static final String BEARER = "Bearer ";
-
+    private static final String BAD_REQUEST = "Bad Request: Invalid token!";
+    private static final String UNAUTHORIZED = "Bad Request: User not found!";
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService, RecipeService recipeService) {
         this.authenticationManager = authenticationManager;
@@ -88,6 +89,41 @@ public class AuthController {
         }
     }
 
+    @DeleteMapping("/deleteRecipe/{id}")
+    public ResponseEntity<String> deleteRecipe(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
+        if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith(BEARER)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BAD_REQUEST);
+        }
+
+        String token = authorizationHeader.substring(7);
+        String userName = jwtUtils.getUserNameFromJwtToken(token);
+        Optional<User> user = userService.getUserFromUserName(userName);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UNAUTHORIZED);
+        }
+
+        Optional<Recipe> recipe = service.findById(id);
+        if (recipe.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Recipe not found!");
+        }
+
+        if (!user.get().getOwnRecipes().contains(recipe.get())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: You are not the owner of this recipe!");
+        }
+
+        // Remove the recipe from the liked recipes of all users
+        List<User> users = userService.findAll();
+        for (User u : users) {
+            if (u.getLikedRecipes().contains(recipe.get())) {
+                u.removeLikedRecipe(recipe.get());
+            }
+        }
+        user.get().removeOwnRecipe(recipe.get());
+        service.deleteById(id);
+        return ResponseEntity.ok("Recipe deleted successfully!");
+    }
+
     @PostMapping("/postLikedRecipe")
     public ResponseEntity<String> saveLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(BEARER)) {
@@ -99,10 +135,10 @@ public class AuthController {
                 user.get().addLikedRecipe(recipe);
                 return ResponseEntity.ok("Liked recipe successfully!");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(UNAUTHORIZED);
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BAD_REQUEST);
         }
     }
 
@@ -117,10 +153,10 @@ public class AuthController {
                 user.get().removeLikedRecipe(recipe);
                 return ResponseEntity.ok("Unliked recipe successfully!");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(UNAUTHORIZED);
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BAD_REQUEST);
         }
     }
 

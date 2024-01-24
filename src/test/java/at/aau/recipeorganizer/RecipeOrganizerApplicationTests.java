@@ -9,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SpringBootTest
 class RecipeOrganizerApplicationTests {
     @MockBean
@@ -20,7 +22,7 @@ class RecipeOrganizerApplicationTests {
     @Test
     void contextLoads() {
         // Ensure that the application context loads successfully
-        assert(true);
+        assertTrue(true);
     }
 
     @Test

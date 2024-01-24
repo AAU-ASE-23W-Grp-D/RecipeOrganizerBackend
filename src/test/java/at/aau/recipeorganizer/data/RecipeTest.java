@@ -214,4 +214,18 @@ class RecipeTest {
 
         assertEquals(2, recipe1.getLikedByUser().size());
     }
+
+    @Test
+    void testDeleteOwnRecipe() {
+        Recipe recipe = new Recipe("Test Recipe", "Test Ingredient", "Test Description", 5, 1, image);
+        User user2 = new User("testUser2", "test2@email.com", "testPassword");
+
+        user2.addOwnRecipe(recipe);
+
+        assertEquals(1, user2.getOwnRecipes().size());
+
+        user2.removeOwnRecipe(recipe);
+
+        assertEquals(0, user2.getOwnRecipes().size());
+    }
 }
