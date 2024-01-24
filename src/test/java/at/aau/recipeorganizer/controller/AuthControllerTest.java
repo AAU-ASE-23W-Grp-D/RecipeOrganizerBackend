@@ -26,11 +26,11 @@ import java.util.Optional;
 
 import static at.aau.recipeorganizer.configuration.jwt.JwtUtils.JWT_COOKIE;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -322,4 +322,54 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testDeleteRecipe_Success() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+        user.addOwnRecipe(recipe1);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe1));
+
+        mockMvc.perform(delete("/api/auth/deleteRecipe/{id}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Recipe deleted successfully!"));
+    }
+
+    @Test
+    void testDeleteRecipe_Failure_NotOwner() throws Exception {
+        User user = new User("testUser", "test@email.com", "testPassword");
+        Recipe recipe1 = new Recipe("Test Recipe 1", "Test Ingredient", "Test Description", 5, 1, image);
+
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.of(user));
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe1));
+
+        mockMvc.perform(delete("/api/auth/deleteRecipe/{id}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Unauthorized: You are not the owner of this recipe!"));
+    }
+
+    @Test
+    void testDeleteRecipe_Failure_UserNotFound() throws Exception {
+        when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("testUser");
+        when(userService.getUserFromUserName("testUser")).thenReturn(Optional.empty());
+
+        mockMvc.perform(delete("/api/auth/deleteRecipe/{id}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer mockToken"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Bad Request: User not found!"));
+    }
+    @Test
+    void testDeleteRecipe_Failure_InvalidToken() throws Exception {
+        mockMvc.perform(delete("/api/auth/deleteRecipe/{id}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, "Invalid token"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Bad Request: Invalid token!"));
+    }
+
 }
