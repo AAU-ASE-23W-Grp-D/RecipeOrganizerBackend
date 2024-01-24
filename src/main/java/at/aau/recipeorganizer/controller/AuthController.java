@@ -26,7 +26,8 @@ public class AuthController {
     private final UserService userService;
     private final RecipeService service;
     private static final String BEARER = "Bearer ";
-
+    private static final String BAD_REQUEST = "Bad Request: Invalid token!";
+    private static final String UNAUTHORIZED = "Bad Request: User not found!";
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService, RecipeService recipeService) {
         this.authenticationManager = authenticationManager;
@@ -91,7 +92,7 @@ public class AuthController {
     @DeleteMapping("/deleteRecipe/{id}")
     public ResponseEntity<String> deleteRecipe(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
         if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith(BEARER)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Invalid token!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BAD_REQUEST);
         }
 
         String token = authorizationHeader.substring(7);
@@ -99,7 +100,7 @@ public class AuthController {
         Optional<User> user = userService.getUserFromUserName(userName);
 
         if (user.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: User not found!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UNAUTHORIZED);
         }
 
         Optional<Recipe> recipe = service.findById(id);
@@ -134,10 +135,10 @@ public class AuthController {
                 user.get().addLikedRecipe(recipe);
                 return ResponseEntity.ok("Liked recipe successfully!");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Request: User not found!");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(UNAUTHORIZED);
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Invalid token!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BAD_REQUEST);
         }
     }
 
@@ -152,10 +153,10 @@ public class AuthController {
                 user.get().removeLikedRecipe(recipe);
                 return ResponseEntity.ok("Unliked recipe successfully!");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Request: User not found!");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(UNAUTHORIZED);
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Invalid token!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BAD_REQUEST);
         }
     }
 
