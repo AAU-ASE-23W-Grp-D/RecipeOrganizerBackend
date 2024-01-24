@@ -88,6 +88,37 @@ public class AuthController {
         }
     }
 
+    @DeleteMapping("/deleteRecipe/{id}")
+    public ResponseEntity<String> deleteRecipe(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(BEARER)) {
+            String token = authorizationHeader.substring(7);
+            String userName = jwtUtils.getUserNameFromJwtToken(token);
+            Optional<User> user = userService.getUserFromUserName(userName);
+
+            if (user.isPresent()) {
+                Optional<Recipe> recipe = service.findById(id);
+                if (recipe.isPresent() && user.get().getOwnRecipes().contains(recipe.get())) {
+                    // Remove the recipe from the liked recipes of all users
+                    List<User> users = userService.findAll();
+                    for (User u : users) {
+                        if (u.getLikedRecipes().contains(recipe.get())) {
+                            u.removeLikedRecipe(recipe.get());
+                        }
+                    }
+                    user.get().removeOwnRecipe(recipe.get());
+                    service.deleteById(id);
+                    return ResponseEntity.ok("Recipe deleted successfully!");
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: You are not the owner of this recipe!");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: User not found!");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Invalid token!");
+        }
+    }
+
     @PostMapping("/postLikedRecipe")
     public ResponseEntity<String> saveLikedRecipe(@RequestHeader (name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Recipe recipe) {
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(BEARER)) {
