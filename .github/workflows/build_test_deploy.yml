@@ -60,6 +60,32 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew sonar --info
 
+    - name: Start Spring Boot
+      run: nohup ./gradlew bootRun &
+
+    - name: Download, install and configure JMeter
+      run: |
+        wget -q https://dlcdn.apache.org/jmeter/binaries/apache-jmeter-5.6.3.zip
+        wget -q https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
+        unzip -q apache-jmeter-5.6.3.zip
+        cp postgresql-42.7.1.jar apache-jmeter-5.6.3/lib/
+        mkdir -p ./reports/api
+        mkdir -p ./reports/sql
+      shell: bash
+
+    - name: Run JMeter Tests
+      run: |
+        apache-jmeter-5.6.3/bin/jmeter -n -t ./src/test/jmeter/api/Signin.jmx -l jmeter_log.log -e -f -o ./reports/api/
+        apache-jmeter-5.6.3/bin/jmeter -n -t ./src/test/jmeter/sql/Recipe.jmx -l jmeter_log.log -e -f -o ./reports/sql/
+      shell: bash
+
+    - name: Upload Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter-test-results
+        path: reports/
+        if-no-files-found: error
+
     - name: Build Docker image and upload to Docker Hub
       if: ${{ success() && github.event_name == 'push' }}
       env:

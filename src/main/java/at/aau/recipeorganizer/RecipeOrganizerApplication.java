@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 
 @SpringBootApplication
 public class RecipeOrganizerApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(RecipeOrganizerApplication.class);
     }
@@ -46,7 +47,7 @@ public class RecipeOrganizerApplication {
             }
 
             User testUser2 = new User("testUser2", "test2@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
-            User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
+            User testUser3 = new User("testUser3", "test3@email.com", "$2a$12$v9ykV0/PH0EOAC12pfqWlu4YzsykY8u0TLcd1hnex0I0oGES.htoO");
             User testUser4 = new User("testUser4", "test4@email.com", "$2a$12$d.dFoMghFSDjhu9d8uupHuU0Qx2FWikldBrGa4yuXz68YEPk/sWjm");
 
             byte[] file = new byte[0];

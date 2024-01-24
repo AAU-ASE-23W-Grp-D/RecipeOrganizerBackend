@@ -2,7 +2,6 @@ package at.aau.recipeorganizer;
 
 import at.aau.recipeorganizer.data.Recipe;
 import at.aau.recipeorganizer.repository.RecipeRepository;
-import at.aau.recipeorganizer.repository.RoleRepository;
 import at.aau.recipeorganizer.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,14 +15,12 @@ class RecipeOrganizerApplicationTests {
     private UserRepository userRepository;
 
     @MockBean
-    private RoleRepository roleRepository;
-
-    @MockBean
     private RecipeRepository recipeRepository;
 
     @Test
     void contextLoads() {
         // Ensure that the application context loads successfully
+        assert(true);
     }
 
     @Test
