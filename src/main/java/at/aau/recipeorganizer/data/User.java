@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @Size(max = 120)
     public String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
