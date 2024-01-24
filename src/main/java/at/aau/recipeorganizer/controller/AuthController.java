@@ -134,10 +134,10 @@ public class AuthController {
                 user.get().addLikedRecipe(recipe);
                 return ResponseEntity.ok("Liked recipe successfully!");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Request: User not found!");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Invalid token!");
         }
     }
 
@@ -152,10 +152,10 @@ public class AuthController {
                 user.get().removeLikedRecipe(recipe);
                 return ResponseEntity.ok("Unliked recipe successfully!");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Request: User not found!");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Invalid token!");
         }
     }
 
